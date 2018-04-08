@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Store.Services;
 
@@ -7,7 +6,6 @@ namespace Store.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize]
         public IActionResult Index([FromServices] IDataManager dm)
         {
             return View();

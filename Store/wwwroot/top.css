@@ -1,0 +1,61 @@
+﻿.top {
+    width: 100%;
+    display: flex;
+    flex-direction: column
+}
+
+.line-info {
+    height: 40px;
+    background-color: #F7F7F7;
+    border-bottom: 1px solid #DDDDDD;
+    box-shadow: 0 2px 0 0 #FFFFFF;
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+.search-block {
+    background-color: #F7F7F7;
+    height: 120px;
+    width: 100%;
+    display: flex;
+    justify-content: center
+}
+
+.menu-line {
+    background-color: #353a3e;
+    height: 52px;
+    width: 100%;
+    display: flex;
+}
+
+.account-actions {
+    height: 40px;
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 10%;
+    align-items: center
+}
+
+.user-logo-mini {
+    width: 35px;
+    height: 35px;
+}
+
+.search-line {
+    display: flex;
+    align-self: center;
+    width: 400px;
+    height: 40px;
+    position: relative;
+}
+
+.search-line form {
+    width: 100%;    
+}
+
+#search {
+    width: 100%;
+    height: 40px;
+}

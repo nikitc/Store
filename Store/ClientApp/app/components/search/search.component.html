@@ -1,0 +1,6 @@
+﻿<input type="text" id="search" (input)="onSearchChange($event.target.value)" placeholder="Найти товар"/>
+<div *ngIf="entered" class="product-list">
+    <ul>
+        <li *ngFor="let item of items">{{item.name}}</li>
+    </ul>
+</div>

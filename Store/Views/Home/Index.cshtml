@@ -1,8 +1,39 @@
 @{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = "Главная страница";
+    var isAuthenticated = User.Identity.IsAuthenticated;
 }
 
-<app asp-prerender-module="ClientApp/dist/main-server">Loading...</app>
+<main class="top">
+    <section class="line-info">
+        <div class="account-actions">
+            <img class="user-logo-mini" src="~/images/user-default-logo.png" alt="Аватар">
+            @if (isAuthenticated)
+            {
+                <span>
+                    @(User.Identity.Name), @Html.ActionLink("Выйти", "Logout", "Account")
+                </span>
+            }
+            else
+            {
+                <span>
+                    @Html.ActionLink("Войти", "Login", "Account")
+                    / 
+                    @Html.ActionLink("Регистрация", "Register", "Account")
+                </span>
+            }
+        </div>
+    </section>
+    <section class="search-block">
+        <div class="search-line">
+            <form>
+                <search-app>Загрузка...</search-app>
+            </form>
+        </div>
+    </section>
+    <section class="menu-line">
+        
+    </section>
+</main>
 
 <script src="~/dist/vendor.js" asp-append-version="true"></script>
 @section scripts {
