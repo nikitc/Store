@@ -11,6 +11,8 @@ namespace Store.Database.Entities
         [Key]
         public int Id { get; set; }
 
+        public string Login { get; set; }
+
         public string PasswordHash { get; set; }
 
         public string FirstName { get; set; }
@@ -23,6 +25,6 @@ namespace Store.Database.Entities
 
         public int Age { get; set; }
 
-        public List<Order> Orders { get; set; }
+        public virtual List<Order> Orders { get; set; }
     }
 }

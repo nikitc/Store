@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -36,11 +37,11 @@ namespace Store.Controllers
         {
             if (ModelState.IsValid)
             {
-                var passwordHash = Sha256Hash(model.Password);
-                var user = await _dataManager.UserRepository.GetAll().FirstOrDefaultAsync(u => u.Email == model.Email);
+                var passwordHash = GetSha256Hash(model.Password);
+                var user = await _dataManager.UserRepository.GetAll().FirstOrDefaultAsync(u => u.Login == model.Login);
                 if (user != null && user.PasswordHash == passwordHash)
                 {
-                    await Authenticate(model.Email); // аутентификация
+                    await Authenticate(model.Login); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -61,23 +62,24 @@ namespace Store.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _dataManager.UserRepository.GetAll().FirstOrDefaultAsync(u => u.Email == model.Email);
+                var user = await _dataManager.UserRepository.GetAll().FirstOrDefaultAsync(u => u.Login == model.Login);
                 if (user == null)
                 {
                     var newUser = new User
                     {
+                        Login = model.Login,
                         Email = model.Email,
-                        PasswordHash = Sha256Hash(model.Password)
+                        PasswordHash = GetSha256Hash(model.Password)
                     };
 
                     _dataManager.UserRepository.Create(newUser);
                     _dataManager.SaveChanges();
 
-                    await Authenticate(model.Email);
+                    await Authenticate(model.Login);
 
                     return RedirectToAction("Index", "Home");
                 }
-                
+
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
@@ -101,8 +103,50 @@ namespace Store.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public IActionResult ResetPassword(string email)
+        {
+            if (email == null)
+                return View();
 
-        public string Sha256Hash(string password)
+            var model = new ResetPasswordModel { Email = email };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = _dataManager.UserRepository.GetAll().FirstOrDefault(x => x.Email == model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("Email", "Пользователя с таким Email не существует");
+                return View(model);
+            }
+            model.ResetPassword(user);
+            
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public IActionResult ResetUserPassword(string token)
+        {
+            if (token == null)
+                RedirectToAction("Index", "Home");
+
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            throw new NotImplementedException();
+        }
+
+        private string GetSha256Hash(string password)
         {
             var crypt = new SHA256Managed();
             var passwordBytes = Encoding.UTF8.GetBytes(password);

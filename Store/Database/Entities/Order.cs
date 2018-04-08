@@ -16,15 +16,10 @@ namespace Store.Database.Entities
         public int UserId { get; set; }
 
         [ForeignKey("UserId")]
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         public int Number { get; set; }
 
-        public List<Product2Order> Product2Orders { get; set; }
-
-        public Order()
-        {
-            Product2Orders = new List<Product2Order>();
-        }
+        public virtual List<Product2Order> Product2Orders { get; set; }
     }
 }

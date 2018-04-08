@@ -19,11 +19,6 @@ namespace Store.Database.Entities
 
         public double Price { get; set; }
 
-        public List<Product2Order> Product2Orders { get; set; }
-
-        public Product()
-        {
-            Product2Orders = new List<Product2Order>();
-        }
+        public virtual List<Product2Order> Product2Orders { get; set; }
     }
 }
