@@ -26,5 +26,18 @@ namespace Store.Controllers
                     Data = data
                 });
         }
+
+        [HttpGet]
+        public IActionResult DisplayProduct(int id)
+        {
+            //Заглушка, на самом деле берем товары из базы
+            var data = new List<Product> { new Product { Name = "test1" } };
+            return Json(
+                new
+                {
+                    IsSuccess = true,
+                    Data = data
+                });
+        }
     }
 }

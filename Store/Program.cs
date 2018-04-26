@@ -18,7 +18,7 @@ namespace Store
                     config.AddJsonFile("dbconfig.json", true, true);
                 })
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:5000/")
+                .UseUrls("http://localhost:5001/")
                 .Build();
     }
 }

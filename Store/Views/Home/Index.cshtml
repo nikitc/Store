@@ -1,9 +1,12 @@
+@model Store.Models.MainPageModel
+
+
 @{
     ViewBag.Title = "Главная страница";
     var isAuthenticated = User.Identity.IsAuthenticated;
 }
 
-<main class="top">
+<header class="top">
     <section class="line-info">
         <div class="account-actions">
             <img class="user-logo-mini" src="~/images/user-default-logo.png" alt="Аватар">
@@ -17,7 +20,7 @@
             {
                 <span>
                     @Html.ActionLink("Войти", "Login", "Account")
-                    / 
+                    /
                     @Html.ActionLink("Регистрация", "Register", "Account")
                 </span>
             }
@@ -30,8 +33,23 @@
             </form>
         </div>
     </section>
-    <section class="menu-line">
-        
+    <section class="menu-line"></section>
+</header>
+<main class="main">
+    <section class="products">
+        <article class="products-sale">
+            <h2>Распродажа</h2>
+            <div class="product-cards">
+                @foreach (var product in Model.SaleProducts)
+                {
+                    <div class="product-list-card">
+                        <img class="product-list-img" src="~/images/example.jpg" alt="Товар">
+                        <a class="product-list-name" href="@Url.Action("DisplayProduct", "Product", new {id = product.Id})">@product.Name</a>
+                        <span class="product-list-price">@product.Price</span>
+                    </div>
+                }
+            </div>
+        </article>
     </section>
 </main>
 
