@@ -12,6 +12,12 @@ namespace Store.Services
             _storeContext = context;
         }
 
+        public IProduct2OrderRepository Product2OrderRepository
+        {
+            get => _product2OrderRepository ?? (_product2OrderRepository = new Product2OrderRepository(_storeContext));
+            set { }
+        }
+
         public void SaveChanges()
         {
             _storeContext.SaveChanges();
@@ -38,5 +44,6 @@ namespace Store.Services
         private UserRepository _userRepository { get; set; }
         private OrderRepository _orderRepository { get; set; }
         private ProductRepository _productRepository { get; set; }
+        private Product2OrderRepository _product2OrderRepository { get; set; }
     }
 }

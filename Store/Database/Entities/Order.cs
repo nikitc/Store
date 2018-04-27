@@ -20,6 +20,8 @@ namespace Store.Database.Entities
 
         public int Number { get; set; }
 
+        public string Guid { get; set; }
+
         public virtual List<Product2Order> Product2Orders { get; set; }
     }
 }

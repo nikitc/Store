@@ -1,5 +1,5 @@
 ﻿{
   "ConnectionStrings": {
-    "PgsqlConnection": "Host=stampy.db.elephantsql.com; Port=5432; Database=preunrre; Username=preunrre; Password=kBffPohOFR6lFaX9mcGW9TJtQS4YXZnX"
+    "PgsqlConnection": "Host=localhost;Port=5432;Database=usersdb;Username=postgres;Password=190196"
   }
 }

@@ -65,6 +65,7 @@ namespace Store.Controllers
                 var user = await _dataManager.UserRepository.GetAll().FirstOrDefaultAsync(u => u.Login == model.Login);
                 if (user == null)
                 {
+                    
                     var newUser = new User
                     {
                         Login = model.Login,
@@ -74,7 +75,6 @@ namespace Store.Controllers
 
                     _dataManager.UserRepository.Create(newUser);
                     _dataManager.SaveChanges();
-
                     await Authenticate(model.Login);
 
                     return RedirectToAction("Index", "Home");
@@ -90,7 +90,7 @@ namespace Store.Controllers
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
             };
 
             var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

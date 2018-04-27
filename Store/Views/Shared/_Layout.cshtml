@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@using Store.Services
+
+@inject IDataManager Service
+@{
+    var countProducts = 0;
+    var isAuthenticated = User.Identity.IsAuthenticated;
+
+    if (isAuthenticated)
+    {
+        var user = Service.UserRepository.GetByName(User.Identity.Name);
+        countProducts = user?.Orders?.Count ?? 0;
+    }
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -11,8 +25,41 @@
     <link rel="stylesheet" href="~/product.css" />
 </head>
 <body>
-    @RenderBody()
+<header class="top">
+    <section class="line-info">
+        <div class="account-actions">
+            <img class="user-logo-mini" src="~/images/user-default-logo.png" alt="Аватар">
+            @if (isAuthenticated)
+            {
+                <span>
+                    @(User.Identity.Name), @Html.ActionLink("Выйти", "Logout", "Account")
+                </span>
+            }
+            else
+            {
+                <span>
+                    @Html.ActionLink("Войти", "Login", "Account")
+                    /
+                    @Html.ActionLink("Регистрация", "Register", "Account")
+                </span>
+            }
+        </div>
+    </section>
+    <section class="search-block">
+        <div class="search-line">
+            <form>
+                <search-app>Загрузка...</search-app>
+            </form>
+        </div>
+        <a class="basket" href="#">
+            <img class="basket-img" src="~/images/basket.png" alt="Корзина">
+            <span>@(countProducts != 0 ? $"Товаров {countProducts}" : "Нет товаров")</span>
+        </a>
+    </section>
+    <section class="menu-line"></section>
+</header>
+@RenderBody()
 
-    @RenderSection("scripts", required: false)
+@RenderSection("scripts", required: false)
 </body>
 </html>

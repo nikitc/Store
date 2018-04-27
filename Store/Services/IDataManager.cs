@@ -7,6 +7,7 @@ namespace Store.Services
         IUserRepository UserRepository { get; set; }
         IOrderRepository OrderRepository { get; set; }
         IProductRepository ProductRepository { get; set; }
+        IProduct2OrderRepository Product2OrderRepository { get; set; }
 
         void SaveChanges();
     }

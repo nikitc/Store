@@ -1,0 +1,27 @@
+﻿@model Store.Models.ProductModel
+
+@{
+    ViewBag.Title = "Главная страница";
+}
+
+<main class="main">
+    <section class="product-card-info">
+        <section class="product-card-info-left">
+            <h2>@Model.Name</h2>
+            <img class="product-card-img" src="~/images/example.jpg" alt="Товар">
+        </section>
+        <section class="product-card-info-right">
+            <h2 class="price">@Model.Price</h2>
+            
+            @using (Html.BeginForm("AddProduct", "Basket", new { productId = Model.Id }, FormMethod.Post))
+            {
+                <input type="submit" class="add-button" value="В корзину">
+            }
+        </section>
+    </section>
+</main>
+
+<script src="~/dist/vendor.js" asp-append-version="true"></script>
+@section scripts {
+    <script src="~/dist/main-client.js" asp-append-version="true"></script>
+}

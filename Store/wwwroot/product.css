@@ -1,5 +1,5 @@
 ﻿.products {
-    width: 60%;
+    width: 80%;
     margin: auto;
 }
 
@@ -33,4 +33,31 @@
 
 .product-list-name {
     margin-left: 5px;
+}
+
+.product-card-info {
+    width: 80%;
+    margin: auto;
+    display: flex;
+}
+
+.product-card-info-left {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card-info-right {
+    width: 20%;
+}
+
+.product-card-img {
+    width: 20%;
+    align-self: center;
+    max-width: 300px;
+    margin-top: 30px;
+}
+
+.price:after {
+    content: " руб.";
 }
