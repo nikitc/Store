@@ -29,6 +29,12 @@ namespace Store.Services
             set { }
         }
 
+        public IUserTokenRepository UserTokenRepository
+        {
+            get => _userTokenRepository ?? (_userTokenRepository = new UserTokenRepository(_storeContext));
+            set { }
+        }
+
         public IOrderRepository OrderRepository
         {
             get => _orderRepository ?? (_orderRepository = new OrderRepository(_storeContext));
@@ -42,6 +48,7 @@ namespace Store.Services
         }
 
         private UserRepository _userRepository { get; set; }
+        private UserTokenRepository _userTokenRepository { get; set; }
         private OrderRepository _orderRepository { get; set; }
         private ProductRepository _productRepository { get; set; }
         private Product2OrderRepository _product2OrderRepository { get; set; }

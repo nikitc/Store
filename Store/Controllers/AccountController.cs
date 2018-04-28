@@ -58,7 +58,7 @@ namespace Store.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterModel model)
+        public async Task<IActionResult> Register(RegisterModel model, [FromServices] IMailSender mailSender)
         {
             if (ModelState.IsValid)
             {
@@ -75,6 +75,7 @@ namespace Store.Controllers
 
                     _dataManager.UserRepository.Create(newUser);
                     _dataManager.SaveChanges();
+                    SendEmailConfirm(model.Email, newUser.Id, mailSender);
                     await Authenticate(model.Login);
 
                     return RedirectToAction("Index", "Home");
@@ -83,6 +84,33 @@ namespace Store.Controllers
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
+        }
+
+        private void SendEmailConfirm(string email, int userId, IMailSender mailSender)
+        {
+            var userToken = new UserToken
+            {
+                CreatingDateTime = DateTime.Now,
+                Token = GenerateToken(),
+                UserId = userId
+            };
+            mailSender.SendStandardEmailConfirm(email, userToken.Token);
+            _dataManager.UserTokenRepository.Create(userToken);
+            _dataManager.SaveChanges();
+        }
+
+        public async Task<IActionResult> ConfirmEmail(string token)
+        {
+            var userToken = await _dataManager.UserTokenRepository.GetAll().FirstOrDefaultAsync(tck => tck.Token == token);
+            if (userToken == null)
+                return BadRequest();
+            
+            /* TODO
+             Тут надо добавить миграцию, сделать у пользователя флаг EmailConfirmed и сделать его true
+             */
+            _dataManager.UserTokenRepository.Delete(userToken);
+            _dataManager.SaveChanges();
+            return RedirectToAction("Index", "Home");
         }
 
         private async Task Authenticate(string userName)
@@ -127,7 +155,7 @@ namespace Store.Controllers
                 return View(model);
             }
             model.ResetPassword(user);
-            
+
             throw new NotImplementedException();
         }
 
@@ -155,6 +183,11 @@ namespace Store.Controllers
             var crypto = crypt.ComputeHash(saltedValue);
 
             return crypto.Aggregate("", (current, theByte) => current + theByte.ToString("x2"));
+        }
+
+        private string GenerateToken()
+        {
+            return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
         }
     }
 }
