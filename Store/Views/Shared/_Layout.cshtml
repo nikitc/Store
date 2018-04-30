@@ -20,7 +20,6 @@
     <title>@ViewData["Title"]</title>
     <base href="~/" />
     <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="product.css">
     <script type="text/javascript" src="dist/jquery-3.3.1.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
             asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
@@ -51,9 +50,11 @@
     </header>
     <div class="logo">
         <img class="main-logo" src="images/23020996.png">
-        <form id="form">
-            <input type="text" class="search" placeholder="Поиск товара">
-            <input class="submit" value type="submit">
+        <form id="form" autocomplete="off">
+            <div class="autocomplete">
+                <input type="text" class="search" id="myInput" placeholder="Поиск товара">
+                <input class="submit" value type="submit">
+            </div>
         </form>
         <div class="cart-container">
             <a class="cart"></a>
@@ -62,11 +63,12 @@
     </div>
     <nav class="menu-container">
         <ul class="menu">
-            <li class="catalog"><a><img src="images/catalog.png">Каталог товаров<img src="images/catalog-arrow.png"></a></li>
-            <li><a>Каталог товаров</a></li>
-            <li><a>Каталог товаров</a></li>
-            <li><a>Каталог товаров</a></li>
-            <li><a>Каталог товаров</a></li>
+            <li class="catalog"><a><img src="/images/catalog.png">Каталог товаров<img src="/images/catalog-arrow.png"></a></li>
+            <li><a href="samsung.html">Samsung</a></li>
+            <li><a href="apple.html">Apple</a></li>
+            <li><a href="xiaomi.html">Xiaomi</a></li>
+            <li><a href="meizu.html">Meizu</a></li>
+            <li><a href="iphone.html">iPhone</a></li>
         </ul>
     </nav>
     @RenderBody()
@@ -98,6 +100,90 @@
                 }
             });
         }
+
+        function autocomplete(inp) {
+            var currentFocus;
+            inp.addEventListener("input", function (e) {
+                var a, b, i, val = this.value;
+                closeAllLists();
+                if (!val || val.length < 3) { return false; }
+                currentFocus = -1;
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "autocomplete-list");
+                a.setAttribute("class", "autocomplete-items");
+                this.parentNode.appendChild(a);
+                var arr;
+                $.when(
+                    $.ajax({
+                        url: "/Product/SearchProductName?name=" + val,
+                        type: "GET",
+                        success: function (json) {
+                            console.log(json);
+                            arr = json.data;
+                        },
+                        error: function () {
+
+                        }
+                    })).then(function () {
+                        console.log(arr);
+                        for (i = 0; i < arr.length; i++) {
+                            b = document.createElement("DIV");
+                            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                            b.innerHTML += arr[i].substr(val.length);
+                            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                            b.addEventListener("click",
+                                function (e) {
+                                    inp.value = this.getElementsByTagName("input")[0].value;
+                                    closeAllLists();
+                                });
+                            a.appendChild(b);
+
+                        }
+                    });
+            });
+            
+            inp.addEventListener("keydown", function (e) {
+                var x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode === 40) {
+                    currentFocus++;
+                    addActive(x);
+                } else if (e.keyCode === 38) { 
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode === 13) {
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+            function addActive(x) {
+                if (!x) return false;
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                x[currentFocus].classList.add("autocomplete-active");
+            }
+            function removeActive(x) {
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("autocomplete-active");
+                }
+            }
+            function closeAllLists(elmnt) {
+                var x = document.getElementsByClassName("autocomplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt !== x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        }
+        autocomplete(document.getElementById("myInput"));
     </script>
 </body>
 </html>

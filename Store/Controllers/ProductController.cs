@@ -15,12 +15,11 @@ namespace Store.Controllers
             _dataManager = datamanager;
         }
 
-        [Route("api/products/SearchProductName={name}")]
-        public IActionResult SearchProductName(string name)
+        public ActionResult SearchProductName(string name)
         {
             //Заглушка, на самом деле берем товары из базы
-            var data = new List<Product> {new Product {Name = "test1"} };
-            return Json (
+            var data = new List<string> { "test1", "tes2", "tes2", "tessst2"};
+            return Json(
                 new
                 {
                     IsSuccess = true,
