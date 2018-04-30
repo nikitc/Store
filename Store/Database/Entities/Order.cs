@@ -15,7 +15,7 @@ namespace Store.Database.Entities
 
         public int UserId { get; set; }
 
-        [ForeignKey("UserId")]
+        [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
 
         public int Number { get; set; }

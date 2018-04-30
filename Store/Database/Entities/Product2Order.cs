@@ -7,12 +7,12 @@ namespace Store.Database.Entities
     {
         public int OrderId { get; set; }
 
-        [ForeignKey("OrderId")]
+        [ForeignKey(nameof(OrderId))]
         public virtual Order Order { get; set; }
 
         public int ProductId { get; set; }
 
-        [ForeignKey("ProductId")]
+        [ForeignKey(nameof(ProductId))]
         public virtual Product Product { get; set; }
     }
 }

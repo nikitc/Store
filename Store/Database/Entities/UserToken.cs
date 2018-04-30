@@ -11,6 +11,7 @@ namespace Store.Database.Entities
 
         public string Token { get; set; }
 
+        [ForeignKey(nameof(UserId))]
         public int UserId { get; set; }
 
         public virtual User User { get; set; }
