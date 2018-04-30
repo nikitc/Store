@@ -1,24 +1,53 @@
 ﻿@model Store.Models.Account.LoginModel
+@{
+    Layout = "";
+}
 
-<h2>Вход на сайт</h2>
-
-<a asp-action="Register" asp-controller="Account">Регистрация</a>
-
-<form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
-    <div class="validation" asp-validation-summary="ModelOnly" />
-    <div>
-        <div class="form-group">
-            <label asp-for="Login">Введите логин</label>
-            <input type="text" asp-for="Login" />
-            <span asp-validation-for="Login" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Password">Введите пароль</label>
-            <input asp-for="Password" />
-            <span asp-validation-for="Password" />
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Войти" class="btn" />
-        </div>
-    </div>
-</form>
+<div class="in" id="in">
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "LoginForm" }))
+    {
+        <a class="close" href=""></a>
+        <p>Авторизация</p>
+        @Html.TextBoxFor(m => m.Login)
+        @Html.EditorFor(m => m.Password)
+        @Html.ValidationMessageFor(m => m.Login)
+        @Html.ValidationMessageFor(m => m.Password)
+        @Html.ValidationSummary(true, "")
+        <a href="" class="forgot-password">Забыли пароль?</a>
+        <input value="Войти" type="button" onclick="send()">
+        <div class="line"></div>
+        <p>если у вас еще нет учетной записи, <a href="#">зарегистрируйтесь</a></p>
+    }
+</div>
+<div class="background"></div>
+<script>
+    function send() {
+        var formData = $("#LoginForm").serialize();
+        $.ajax({
+            url: "/AjaxValidator/CheckLoginModel",
+            type: "POST",
+            data: formData,
+            success: function (json) {
+                if (json.isSuccess) {
+                    $("#LoginForm").submit();
+                } else {
+                    $.ajax({
+                        url: "/Account/Login",
+                        type: "POST",
+                        data: formData,
+                        success: function (res) {
+                            $("#login").empty();
+                            $("#login").html(res);
+                        },
+                        error: function () {
+                            $("#login").empty();
+                        }
+                    });
+                }
+            },
+            error: function () {
+                console.log(123);
+            }
+        });
+    };
+</script>

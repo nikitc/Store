@@ -1,32 +1,54 @@
 ﻿@model Store.Models.Account.RegisterModel
 
-<h2>Регистрация</h2>
+@{
+    Layout = "";
+}
 
-<form asp-action="Register" asp-controller="Account" asp-anti-forgery="true">
-    <div class="validation" asp-validation-summary="ModelOnly" />
-    <div>
-        <div>
-            <label asp-for="Login">Введите логин</label><br />
-            <input type="text" asp-for="Login" />
-            <span asp-validation-for="Login" />
-        </div>
-        <div>
-            <label asp-for="Email">Введите Email</label><br/>
-            <input type="text" asp-for="Email"/>
-            <span asp-validation-for="Email"/>
-        </div>
-        <div>
-            <label asp-for="Password">Введите пароль</label><br/>
-            <input asp-for="Password"/>
-            <span asp-validation-for="Password"/>
-        </div>
-        <div>
-            <label asp-for="ConfirmPassword">Повторите пароль</label><br/>
-            <input asp-for="ConfirmPassword"/>
-            <span asp-validation-for="ConfirmPassword"/>
-        </div>
-        <div>
-            <input type="submit" value="Регистрация"/>
-        </div>
-    </div>
-</form>
+<div class="reg" id="reg">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "RegisterForm" }))
+    {
+        <a class="close" href=""></a>
+        <p>Регистрация</p>
+        @Html.TextBoxFor(m => m.Email)
+        <span asp-validation-for="Email"></span>
+        @Html.TextBoxFor(m => m.Login)
+        <span asp-validation-for="Login"></span>
+        @Html.EditorFor(m => m.Password)
+        <span asp-validation-for="Password"></span>
+        @Html.EditorFor(m => m.ConfirmPassword)
+        <span asp-validation-for="ConfirmPassword"></span>
+        <input value="Зарегистрироваться" type="button" onclick="send()">
+    }
+</div>
+<div class="background"></div>
+<script>
+    function send() {
+        var formData = $("#RegisterForm").serialize();
+        $.ajax({
+            url: "/AjaxValidator/CheckRegisterModel",
+            type: "POST",
+            data: formData,
+            success: function (json) {
+                if (json.isSuccess) {
+                    $("#RegisterForm").submit();
+                } else {
+                    $.ajax({
+                        url: "/Account/Register",
+                        type: "POST",
+                        data: formData,
+                        success: function (res) {
+                            $("#register").empty();
+                            $("#register").html(res);
+                        },
+                        error: function () {
+                            $("#register").empty();
+                        }
+                    });
+                }
+            },
+            error: function () {
+                console.log(123);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,266 @@
+body {
+    background-color: #f7f7f7;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 15px;
+}
+
+header {
+    height: 30px;
+    border-bottom: 1px solid #DDDDDD;
+    box-shadow: 0 2px 0 0 #FFFFFF;
+    padding: 5px;
+    padding-right: 15px;
+}
+
+.auth {
+    float: right;
+    padding-left: 20px;
+}
+
+.profile {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.logo {
+    width: 1180px;
+    height: 120px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.main-logo {
+    width: 125px;
+    height: 125px;
+    float: left;
+    margin-left: 50px;
+    margin-top: -10px;
+}
+
+.search {
+    width: 580px;
+    height: 40px;
+    border-radius: 20px;
+    border: 2px solid #DDDDDD;
+    background: #ffffff;
+    padding: 2px 10px;
+    margin-left: 50px;
+    position: absolute;
+    top: 40px;
+    left: 200px;
+    outline: none;
+}
+
+.submit {
+    position: absolute;
+    top: 40px;
+    left: 780px;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background: url("images/zoom.png") 50% 50% no-repeat;
+    background-size: 20px 20px;
+    outline: none;
+    cursor: pointer;
+}
+
+.cart {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: url("images/inetrnet-store-cart.png") 50% 50% no-repeat;
+    background-size: 50px 50px;
+    vertical-align: middle;
+}
+
+.cost {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.cart-container {
+    float: right;
+    margin-right: 110px;
+    margin-top: 30px;
+}
+
+.menu-container {
+    height: 52px;
+    background-color: #353a3e;
+}
+
+.menu {
+    font-size: 14px;
+}
+
+    .menu li {
+        list-style: none;
+        padding: 5px 10px;
+        display: table;
+        float: left;
+        color: white;
+        height: 42px;
+    }
+
+        .menu li:hover {
+            background-color: #f77a5c;
+            transition: 1s;
+        }
+
+        .menu li a {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            cursor: pointer;
+            height: 42px;
+        }
+
+.catalog {
+    background-color: rgba(123, 123, 123, 0.82);
+    width: 200px;
+    margin-left: 45px;
+}
+
+    .catalog img:first-child {
+        vertical-align: middle;
+        margin-left: -5px;
+        margin-right: 10px;
+        margin-top: -4px;
+    }
+
+    .catalog img:last-child {
+        vertical-align: middle;
+        margin-top: -4px;
+        margin-left: 10px;
+    }
+
+.in,
+.reg{
+    width: 405px;
+    height: 290px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    margin: auto;
+    z-index: 100;
+    border-radius: 10px;
+}
+
+
+.background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #c0c0c0;
+    z-index: 10;
+    opacity: .3;
+}
+
+#in:target,
+#in:target ~ .background,
+#reg:target,
+#reg:target ~ .background {
+    display: block;
+}
+
+#in,
+#reg{
+    font-size: 12px;
+    padding: 5px 15px;
+}
+
+    #in input,
+    #reg input{
+        height: 34px;
+        width: 398px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #C9C9C9;
+        font-size: 12px;
+        padding: 5Px 10px;
+        outline: none;
+    }
+
+    #in .close,
+    #reg .close{
+        position: absolute;
+        top: 15px;
+        right: 0;
+        width: 32px;
+        height: 32px;
+        background: url("images/close.png") center no-repeat;
+        background-size: 15px 15px;
+        border-radius: 0 10px 0 10px;
+        cursor: pointer;
+    }
+
+    #in p,
+    #reg p{
+        font-weight: bold;
+        font-size: 17px;
+    }
+
+.line {
+    background: #c9c9c9;
+    height: 1px;
+    width: 398px;
+    margin: 10px 0;
+}
+
+#in input[type="submit"] {
+    margin-bottom: 10px;
+    height: 34px;
+    width: 118px;
+    cursor: pointer;
+}
+
+#in input[type="button"] {
+    cursor: pointer;
+    outline: aqua;
+}
+
+.forgot-password {
+    float: right;
+}
+
+#in a {
+    text-decoration: none;
+}
+
+    #in a:enabled {
+        color: blue;
+    }
+
+#form {
+    margin-bottom: 1em;
+}
+
+input:not([type="image"]), textarea {
+    box-sizing: border-box;
+}
+
+#in form p{
+    font-size: 12px;
+}
+
+a#reg:enabled {
+    color: blue;
+    text-decoration: none;
+}
+
+a#in,
+a#reg {
+    text-decoration: none;
+}
+.reg {
+    width: 400px;
+    height: 350px;
+}

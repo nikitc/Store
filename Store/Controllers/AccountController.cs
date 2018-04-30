@@ -28,7 +28,7 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            return View(new LoginModel());
         }
 
         [HttpPost]
@@ -53,7 +53,7 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            return View(new RegisterModel());
         }
 
         [HttpPost]
@@ -80,7 +80,7 @@ namespace Store.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("", "Пользователь с таким логином уже существует");
             }
             return View(model);
         }
@@ -146,7 +146,7 @@ namespace Store.Controllers
             throw new NotImplementedException();
         }
 
-        private string GetSha256Hash(string password)
+        public static string GetSha256Hash(string password)
         {
             var crypt = new SHA256Managed();
             var passwordBytes = Encoding.UTF8.GetBytes(password);
