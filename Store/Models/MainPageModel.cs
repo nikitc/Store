@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Store.Database.Entities;
 
 namespace Store.Models
@@ -7,14 +8,14 @@ namespace Store.Models
     {
         public List<ProductModel> SaleProducts { get; set; }
 
-        public void Fill(List<Product> products) {
-            SaleProducts = new List<ProductModel>();
-            foreach (var product in products)
+        public void Fill(IQueryable<Product> products)
+        {
+            SaleProducts = products.Select(p => new ProductModel
             {
-                var currentProduct = new ProductModel();
-                currentProduct.SetModel(product);
-                SaleProducts.Add(currentProduct);
-            }
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price
+            }).ToList();
         }
     }
 }

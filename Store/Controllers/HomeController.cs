@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Store.Database.Entities;
@@ -11,14 +10,10 @@ namespace Store.Controllers
     {
         public IActionResult Index([FromServices] IDataManager dataManager)
         {
-            var products = new List<Product>
-            {
-                new Product {Id = 1, Name = "Смартфон HONOR 9 lite Black", Price = 14990},
-                new Product {Id = 2, Name = "Nokia", Price = 990}
-            };
-
+            var products = dataManager.ProductRepository.GetAll();   
             var model = new MainPageModel();
             model.Fill(products);
+
             return View(model);
         }
 

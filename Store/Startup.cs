@@ -26,6 +26,7 @@ namespace Store
             var connection = Configuration.GetConnectionString("PgsqlConnection");
             services.AddDbContext<StoreContext>(options => options.UseNpgsql(connection));
             services.AddTransient<IDataManager, DataManager>();
+            services.AddTransient<IMailSender, MailSender>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

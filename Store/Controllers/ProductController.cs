@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Store.Database.Entities;
+using Store.Models;
 using Store.Services;
 
 namespace Store.Controllers
@@ -30,14 +31,15 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult DisplayProduct(int id)
         {
-            //Заглушка, на самом деле берем товары из базы
-            var data = new List<Product> { new Product { Name = "test1" } };
-            return Json(
-                new
-                {
-                    IsSuccess = true,
-                    Data = data
-                });
+            var product = _dataManager.ProductRepository.GetById(id);
+            if (product == null)
+            {
+                return BadRequest();
+            }
+
+            var model = new ProductModel();
+            model.SetModel(product);
+            return View(model);
         }
     }
 }

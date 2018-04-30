@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Store.Database.interfaces
 {
@@ -9,8 +6,8 @@ namespace Store.Database.interfaces
     {
         TEntity GetById(int id);
         IQueryable<TEntity> GetAll();
-        void Create(TEntity user);
-        void Update(TEntity user);
-        void Delete(TEntity user);
+        void Create(TEntity entity);
+        void Update(TEntity entity);
+        void Delete(TEntity entity);
     }
 }

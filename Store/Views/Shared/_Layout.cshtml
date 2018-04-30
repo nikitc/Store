@@ -1,5 +1,15 @@
-﻿@{
+﻿@using Store.Services
+
+@inject IDataManager Service
+@{
+    var countProducts = 0;
     var isAuthenticated = User.Identity.IsAuthenticated;
+
+    if (isAuthenticated)
+    {
+        var user = Service.UserRepository.GetByName(User.Identity.Name);
+        countProducts = user?.Orders?.Count ?? 0;
+    }
 }
 
 <!DOCTYPE html>
@@ -10,6 +20,7 @@
     <title>@ViewData["Title"]</title>
     <base href="~/" />
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="product.css">
     <script type="text/javascript" src="dist/jquery-3.3.1.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
             asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
@@ -46,7 +57,7 @@
         </form>
         <div class="cart-container">
             <a class="cart"></a>
-            <span class="cost">Нет товаров</span>
+            <span class="cost">@(countProducts != 0 ? $"Товаров {countProducts}" : "Нет товаров")</span>
         </div>
     </div>
     <nav class="menu-container">
