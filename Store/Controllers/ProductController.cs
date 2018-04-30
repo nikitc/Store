@@ -40,5 +40,11 @@ namespace Store.Controllers
             model.SetModel(product);
             return View(model);
         }
+
+        [HttpGet]
+        public string Add()
+        {
+            return "123";
+        }
     }
 }

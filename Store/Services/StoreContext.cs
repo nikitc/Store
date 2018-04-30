@@ -10,6 +10,8 @@ namespace Store.Services
         public DbSet<Product> Products { get; set; }
         public DbSet<UserToken> UserTokens { get; set; }
         public DbSet<Product2Order> Product2Orders { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
         public StoreContext(DbContextOptions options) : base(options)
         {

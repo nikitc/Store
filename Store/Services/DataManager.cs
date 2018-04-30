@@ -18,6 +18,19 @@ namespace Store.Services
             set { }
         }
 
+        public IImageRepository ImageRepository
+        {
+            get => _imageRepository ?? (_imageRepository = new ImageRepository(_storeContext));
+            set { }
+        }
+
+        public IBrandRepository BrandRepository
+        {
+            get => _brandRepository ?? (_brandRepository = new BrandRepository(_storeContext));
+            set { }
+
+        }
+
         public void SaveChanges()
         {
             _storeContext.SaveChanges();
@@ -52,5 +65,7 @@ namespace Store.Services
         private OrderRepository _orderRepository { get; set; }
         private ProductRepository _productRepository { get; set; }
         private Product2OrderRepository _product2OrderRepository { get; set; }
+        private ImageRepository _imageRepository { get; set; }
+        private BrandRepository _brandRepository { get; set; }
     }
 }
