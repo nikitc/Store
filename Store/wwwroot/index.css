@@ -139,7 +139,8 @@ header {
     }
 
 .in,
-.reg {
+.reg,
+#add-brand {
     width: 405px;
     height: 290px;
     position: absolute;
@@ -179,33 +180,54 @@ header {
     padding: 5px 15px;
 }
 
+
+#add-brand {
+    padding: 15px 10px 0 10px;
+}
+
+#add-brand p {
+    margin-top: 0;
+}
+
     #in input,
-    #reg input {
+    #reg input,
+    #add input{
         height: 34px;
         width: 398px;
         margin-bottom: 20px;
         border-radius: 5px;
         border: 1px solid #C9C9C9;
         font-size: 12px;
-        padding: 5Px 10px;
+        padding: 5px 10px;
         outline: none;
     }
 
-    #in .close,
-    #reg .close {
-        position: absolute;
-        top: 15px;
-        right: 0;
-        width: 32px;
-        height: 32px;
-        background: url("images/close.png") center no-repeat;
-        background-size: 15px 15px;
-        border-radius: 0 10px 0 10px;
-        cursor: pointer;
-    }
+#add input[type="file"] {
+    border: none;
+    padding-left: 0;
+}
+
+#in .close,
+#reg .close,
+#add .close {
+    position: absolute;
+    top: 15px;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    background: url("images/close.png") center no-repeat;
+    background-size: 15px 15px;
+    border-radius: 0 10px 0 10px;
+    cursor: pointer;
+}
+
+#add .close {
+    top: 10px;
+}
 
     #in p,
-    #reg p {
+    #reg p,
+    #add p{
         font-weight: bold;
         font-size: 17px;
     }
@@ -227,6 +249,11 @@ header {
 #in input[type="button"] {
     cursor: pointer;
     outline: aqua;
+}
+
+input[type="button"]:active,
+input[type="submit"]:active {
+    transform: scale(0.99);
 }
 
 .forgot-password {
@@ -448,3 +475,36 @@ footer {
     background-color: DodgerBlue !important; 
     color: #ffffff; 
 }
+
+.popup {
+    position: absolute;
+    width: 250px;
+    height: 70px;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    line-height: 70px;
+    border-radius: 15px;
+    opacity: 0.8;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.content {
+    min-height: 290px;
+    padding: 30px;
+}
+
+#Price,
+#OldPrice {
+    width: 200px !important;
+}
+
+#ProductForm input,
+#ProductForm select{
+    margin-bottom: 10px;
+}
+

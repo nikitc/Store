@@ -7,7 +7,7 @@
 <div class="reg" id="reg">
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "RegisterForm" }))
     {
-        <a class="close" href=""></a>
+        <a class="close" href="javascript: close()"></a>
         <p>Регистрация</p>
         @Html.TextBoxFor(m => m.Email)
         <span asp-validation-for="Email"></span>
@@ -22,6 +22,9 @@
 </div>
 <div class="background"></div>
 <script>
+    function close() {
+        $("#register").empty();
+    }
     function send() {
         var formData = $("#RegisterForm").serialize();
         $.ajax({

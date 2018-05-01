@@ -6,7 +6,7 @@
 <div class="in" id="in">
     @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "LoginForm" }))
     {
-        <a class="close" href=""></a>
+        <a class="close" href="javascript: close()"></a>
         <p>Авторизация</p>
         @Html.TextBoxFor(m => m.Login)
         @Html.EditorFor(m => m.Password)
@@ -21,6 +21,9 @@
 </div>
 <div class="background"></div>
 <script>
+    function close() {
+        $("#login").empty();
+    }
     function send() {
         var formData = $("#LoginForm").serialize();
         $.ajax({

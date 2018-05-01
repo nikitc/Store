@@ -1,0 +1,34 @@
+﻿<div class="content">
+    <input type="button" onclick="addBrand()" value="Добавить бренд" />
+    <input type="button" onclick="addProduct()" value="Добавить товар"/>
+    <div id="add"></div>
+</div>
+<script>
+    function addBrand() {
+        $.ajax({
+            url: "@Url.Action("AddBrand", "Brand")",
+            type: "GET",
+            success: function(html) {
+                $("#add").empty();
+                $("#add").html(html);
+            },
+            error: function() {
+                $("#add").empty();
+            }
+        });
+    }
+
+    function addProduct() {
+        $.ajax({
+            url: "@Url.Action("AddProduct", "Product")",
+            type: "GET",
+            success: function (html) {
+                $("#add").empty();
+                $("#add").html(html);
+            },
+            error: function () {
+                $("#add").empty();
+            }
+        });
+    }
+</script>

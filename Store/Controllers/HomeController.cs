@@ -15,7 +15,8 @@ namespace Store.Controllers
                 .Select(x => new BrandModel
                 {
                     Name = x.Name,
-                    ImageData = x.Image
+                    ImageData = x.Image,
+                    BrandId = x.Id
                 });
             return View(brands);
         }

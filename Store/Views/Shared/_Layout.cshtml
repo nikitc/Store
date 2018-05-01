@@ -1,10 +1,11 @@
-﻿@using Store.Services
+﻿@using Store.Models
+@using Store.Services
 
 @inject IDataManager Service
 @{
     var countProducts = 0;
     var isAuthenticated = User.Identity.IsAuthenticated;
-
+    var brands = Service.BrandRepository.GetAll().Take(5).Select(x => new BrandModel { Name = x.Name, BrandId = x.Id });
     if (isAuthenticated)
     {
         var user = Service.UserRepository.GetByName(User.Identity.Name);
@@ -48,27 +49,28 @@
             }
         </div>
     </header>
-    <div class="logo">
+<div class="logo">
+    <a href="@Url.Action("Index", "Home")">
         <img class="main-logo" src="images/23020996.png">
-        <form id="form" autocomplete="off">
-            <div class="autocomplete">
-                <input type="text" class="search" id="myInput" placeholder="Поиск товара">
-                <input class="submit" value type="submit">
-            </div>
-        </form>
-        <div class="cart-container">
-            <a class="cart"></a>
-            <span class="cost">@(countProducts != 0 ? $"Товаров {countProducts}" : "Нет товаров")</span>
+    </a>
+    <form id="form" autocomplete="off">
+        <div class="autocomplete">
+            <input type="text" class="search" id="myInput" placeholder="Поиск товара">
+            <input class="submit" value type="submit">
         </div>
+    </form>
+    <div class="cart-container">
+        <a class="cart"></a>
+        <span class="cost">@(countProducts != 0 ? $"Товаров {countProducts}" : "Нет товаров")</span>
     </div>
+</div>
     <nav class="menu-container">
         <ul class="menu">
             <li class="catalog"><a><img src="/images/catalog.png">Каталог товаров<img src="/images/catalog-arrow.png"></a></li>
-            <li><a href="samsung.html">Samsung</a></li>
-            <li><a href="apple.html">Apple</a></li>
-            <li><a href="xiaomi.html">Xiaomi</a></li>
-            <li><a href="meizu.html">Meizu</a></li>
-            <li><a href="iphone.html">iPhone</a></li>
+            @foreach (var brand in brands)
+            {
+                <li><a href="samsung.html">@brand.Name</a></li>
+            }
         </ul>
     </nav>
     @RenderBody()
@@ -103,6 +105,22 @@
                     $("#register").empty();
                 }
             });
+        }
+
+        function redPopup(text) {
+            popup(text, "#f38d8d");
+        }
+
+        function greenPopup(text) {
+            popup(text, "#8df38e");
+        }
+
+        function popup(text, color) {
+            $(".popup").remove();
+            $("body").append("<div class=\"popup\">" + text + "</div>");
+            $(".popup").css({ 'background-color': color });
+            setTimeout(function() {
+                $(".popup").fadeOut()}, 2000);
         }
 
         function autocomplete(inp) {
@@ -145,14 +163,14 @@
                         }
                     });
             });
-            
+
             inp.addEventListener("keydown", function (e) {
                 var x = document.getElementById(this.id + "autocomplete-list");
                 if (x) x = x.getElementsByTagName("div");
                 if (e.keyCode === 40) {
                     currentFocus++;
                     addActive(x);
-                } else if (e.keyCode === 38) { 
+                } else if (e.keyCode === 38) {
                     currentFocus--;
                     addActive(x);
                 } else if (e.keyCode === 13) {
@@ -182,7 +200,7 @@
                     }
                 }
             }
-            
+
             document.addEventListener("click", function (e) {
                 closeAllLists(e.target);
             });

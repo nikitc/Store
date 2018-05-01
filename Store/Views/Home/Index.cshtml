@@ -7,10 +7,10 @@
 
 <div class="main">
     <div class="sale">
-        <p>Бренды</p>
+        <p>Популярные бренды</p>
         @foreach (var brand in Model)
         {
-            <a href="samsung.html" class="saleItem">
+            <a href="@Url.Action("")" class="saleItem">
                 <div class="image">
                     <img src="data:@brand.ImageData.Type;base64,@brand.ImageData.Content">
                 </div>

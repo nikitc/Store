@@ -19,6 +19,7 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult AddBrand()
         {
+            //TODO Проверка на админа
             var brandModel = new BrandModel();
             return View(brandModel);
         }
@@ -26,6 +27,10 @@ namespace Store.Controllers
         [HttpPost]
         public IActionResult AddBrand(BrandModel model)
         {
+            //TODO Проверка на админа
+            if (!ModelState.IsValid)
+                return View(model);
+
             string content;
             using (var binaryReader = new BinaryReader(model.Image.OpenReadStream()))
             {
@@ -45,7 +50,7 @@ namespace Store.Controllers
             };
             _dataManager.BrandRepository.Create(brand);
             _dataManager.SaveChanges();
-            return RedirectToAction("AddBrand", "Brand");
+            return Json(new { Created = true });
         }
     }
 }

@@ -1,16 +1,19 @@
-﻿@model Store.Models.BrandModel
+﻿@model Store.Models.ProductModel
 
 @{
     Layout = null;
 }
+
 <div id="add-brand">
-    <form asp-action="AddBrand" asp-controller="Brand" method="post" enctype="multipart/form-data" id="BrandForm">
-        <p>Новый бренд</p>
+    <form asp-action="AddProduct" asp-controller="Product" method="post" enctype="multipart/form-data" id="ProductForm">
+        <p>Новый товар</p>
         <a class="close" href="javascript: close()"></a>
         @Html.TextBoxFor(m => m.Name)
-        @Html.ValidationMessageFor(m => m.Name)
         @Html.TextBoxFor(m => m.Image, new { type = "file" })
-        @Html.ValidationMessageFor(m => m.Image)
+        @Html.TextBoxFor(m => m.Price)
+        @Html.TextBoxFor(m => m.OldPrice)
+        @Html.DropDownList("Brand", new SelectList(Model.Brands), "Выберите бренд")
+        @Html.TextBoxFor(m => m.Description)
         <input type="button" value="Добавить" onclick="send()" />
     </form>
 </div>
@@ -21,9 +24,9 @@
         $("#add").empty();
     }
     function send() {
-        var formData = new FormData($("#BrandForm")[0]);
+        var formData = new FormData($("#ProductForm")[0]);
         $.ajax({
-            url: "/Brand/AddBrand",
+            url: "@Url.Action("AddProduct")",
             type: "POST",
             enctype: 'multipart/form-data',
             processData: false,
@@ -33,13 +36,13 @@
             success: function (res) {
                 $("#add").empty();
                 if (res.created) {
-                    greenPopup("Брэнд добавлен");
+                    greenPopup("Товар добавлен");
                 } else {
                     $("#add").html(res);
                 }
             },
             error: function () {
-
+                redPopup("Произошла ошибка");
             }
         });
     }
