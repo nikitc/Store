@@ -13,6 +13,11 @@ namespace Store.Database.Entities
 
         public string Name { get; set; }
 
+        public int ImageId { get; set; }
+
+        [ForeignKey(nameof(ImageId))]
+        public Image Image { get; set; }
+
         public virtual List<Product> Products { get; set; }
     }
 }

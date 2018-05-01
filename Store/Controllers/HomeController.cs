@@ -1,6 +1,6 @@
 using System.Diagnostics;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Store.Database.Entities;
 using Store.Models;
 using Store.Services;
 
@@ -10,11 +10,14 @@ namespace Store.Controllers
     {
         public IActionResult Index([FromServices] IDataManager dataManager)
         {
-            var products = dataManager.ProductRepository.GetAll();   
-            var model = new MainPageModel();
-            model.Fill(products);
-
-            return View(model);
+            var brands = dataManager.BrandRepository.GetAll()
+                .Take(5)
+                .Select(x => new BrandModel
+                {
+                    Name = x.Name,
+                    ImageData = x.Image
+                });
+            return View(brands);
         }
 
         public IActionResult Error()

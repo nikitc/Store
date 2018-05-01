@@ -1,4 +1,5 @@
-@model Store.Models.MainPageModel
+@using Store.Models
+@model IEnumerable<BrandModel>
 @{
     ViewBag.Title = "Главная страница";
 }
@@ -6,51 +7,15 @@
 
 <div class="main">
     <div class="sale">
-        <p>Распродажа</p>
-        <a href="samsung.html" class="saleItem">
-            <div class="plate">
-                sale
-            </div>
-            <div class="image">
-                <img src="/images/samsung.jpg">
-            </div>
-            <div class="description">Samsung</div>
-        </a>
-        <a class="saleItem">
-            <div class="plate">
-                sale
-            </div>
-            <div class="image">
-                <img src="/images/apple.jpg">
-            </div>
-            <div class="description">Apple</div>
-        </a>
-        <a class="saleItem">
-            <div class="plate">
-                sale
-            </div>
-            <div class="image">
-                <img src="/images/xiaomi.jpg">
-            </div>
-            <div class="description">Xiaomi</div>
-        </a>
-        <a class="saleItem">
-            <div class="plate">
-                sale
-            </div>
-            <div class="image">
-                <img src="/images/meizu.jpg">
-            </div>
-            <div class="description">Meizu</div>
-        </a>
-        <a class="saleItem">
-            <div class="plate">
-                sale
-            </div>
-            <div class="image">
-                <img src="/images/iphone.jpg">
-            </div>
-            <div class="description">iPhone</div>
-        </a>
+        <p>Бренды</p>
+        @foreach (var brand in Model)
+        {
+            <a href="samsung.html" class="saleItem">
+                <div class="image">
+                    <img src="data:@brand.ImageData.Type;base64,@brand.ImageData.Content">
+                </div>
+                <div class="description">@brand.Name</div>
+            </a>
+        }
     </div>
 </div>
