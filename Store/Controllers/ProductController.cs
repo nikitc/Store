@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Store.Database.Entities;
@@ -72,6 +74,34 @@ namespace Store.Controllers
                 model.Fill(_dataManager);
                 return View(model);
             }
+
+            var brand = _dataManager.BrandRepository.GetAll().First(x => x.Name == model.Brand);
+
+            string content;
+            using (var binaryReader = new BinaryReader(model.Image.OpenReadStream()))
+            {
+                var imageData = binaryReader.ReadBytes((int)model.Image.Length);
+                content = Convert.ToBase64String(imageData);
+            }
+
+            var image = new Image
+            {
+                Name = model.Image.FileName,
+                Content = content
+            };
+
+            var product = new Product
+            {
+                Name = model.Name,
+                Brand = brand,
+                Description = model.Description,
+                OldPrice = model.OldPrice,
+                Price = model.Price.Value,
+                Image = image
+            };
+
+            _dataManager.ProductRepository.Create(product);
+            _dataManager.SaveChanges();
 
             return Json(new { Created = true });
         }

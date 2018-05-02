@@ -27,7 +27,7 @@ namespace Store.Database.Entities
 
         public double Price { get; set; }
 
-        public double OldPrice { get; set; }
+        public double? OldPrice { get; set; }
 
         public virtual List<Product2Order> Product2Orders { get; set; }
     }

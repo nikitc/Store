@@ -23,7 +23,7 @@
     function send() {
         var formData = new FormData($("#BrandForm")[0]);
         $.ajax({
-            url: "/Brand/AddBrand",
+            url: "@Url.Action("AddBrand", "Brand")",
             type: "POST",
             enctype: 'multipart/form-data',
             processData: false,

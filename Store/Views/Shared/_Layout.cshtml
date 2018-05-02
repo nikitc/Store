@@ -82,7 +82,7 @@
     <script>
         function login() {
             $.ajax({
-                url: "/Account/Login",
+                url: "@Url.Action("Login", "Account")",
                 type: "GET",
                 success: function (data) {
                     $("#login").empty();
@@ -95,7 +95,7 @@
         }
         function register() {
             $.ajax({
-                url: "/Account/Register",
+                url: "@Url.Action("Register", "Account")",
                 type: "GET",
                 success: function (data) {
                     $("#register").empty();

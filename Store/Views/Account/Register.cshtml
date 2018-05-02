@@ -28,7 +28,7 @@
     function send() {
         var formData = $("#RegisterForm").serialize();
         $.ajax({
-            url: "/AjaxValidator/CheckRegisterModel",
+            url: "@Url.Action("CheckRegisterModel", "AjaxValidator")",
             type: "POST",
             data: formData,
             success: function (json) {
@@ -36,7 +36,7 @@
                     $("#RegisterForm").submit();
                 } else {
                     $.ajax({
-                        url: "/Account/Register",
+                        url: "@Url.Action("Register", "Account")",
                         type: "POST",
                         data: formData,
                         success: function (res) {

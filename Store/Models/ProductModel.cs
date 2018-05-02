@@ -30,7 +30,7 @@ namespace Store.Models
         [Required(ErrorMessage = "Не загружена картинка")]
         public IFormFile Image { get; set; }
 
-        
+
         public string Brand { get; set; }
         public List<string> Brands;
 
@@ -49,6 +49,9 @@ namespace Store.Models
             var errors = new List<ValidationResult>();
             if (string.IsNullOrEmpty(Brand))
                 errors.Add(new ValidationResult("Выберите бренд", new List<string> { "Brand" }));
+
+            if (OldPrice.HasValue && OldPrice.Value > Price.Value)
+                errors.Add(new ValidationResult("Старая цена не может быть больше предыдущей", new List<string> { "OldPrice" }));
 
             return errors;
         }
