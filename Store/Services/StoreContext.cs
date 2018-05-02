@@ -39,18 +39,13 @@ namespace Store.Services
                 .Property(f => f.Id)
                 .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Brand)
+                .WithMany(b => b.Products)
+                .HasForeignKey(p => p.BrandId);
+
             modelBuilder.Entity<Product2Order>()
                 .HasKey(t => new { t.ProductId, t.OrderId });
-
-            modelBuilder.Entity<Product2Order>()
-                .HasOne(sc => sc.Product)
-                .WithMany(s => s.Product2Orders)
-                .HasForeignKey(sc => sc.ProductId);
-
-            modelBuilder.Entity<Product2Order>()
-                .HasOne(sc => sc.Order)
-                .WithMany(c => c.Product2Orders)
-                .HasForeignKey(sc => sc.OrderId);
         }
     }
 }

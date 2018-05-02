@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Store.Database.Entities;
@@ -31,6 +33,7 @@ namespace Store.Models
         public IFormFile Image { get; set; }
 
 
+        public int BrandId { get; set; }
         public string Brand { get; set; }
         public List<string> Brands;
 
@@ -42,6 +45,8 @@ namespace Store.Models
             Description = product.Description;
             ImageData = product.Image;
             OldPrice = product.OldPrice;
+            Brand = product.Brand.Name;
+            BrandId = product.BrandId;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -59,6 +64,30 @@ namespace Store.Models
         public void Fill(IDataManager dataManager)
         {
             Brands = dataManager.BrandRepository.GetAll().Select(x => x.Name).ToList();
+        }
+
+        public void SetProduct(Product product, IDataManager dataManager)
+        {
+            var brand = dataManager.BrandRepository.GetAll().First(x => x.Name == Brand);
+
+            string content;
+            using (var binaryReader = new BinaryReader(Image.OpenReadStream()))
+            {
+                var imageData = binaryReader.ReadBytes((int)Image.Length);
+                content = Convert.ToBase64String(imageData);
+            }
+            var image = new Image
+            {
+                Name = Image.FileName,
+                Content = content
+            };
+
+            product.Name = Name;
+            product.Brand = brand;
+            product.Description = Description;
+            product.Price = Price.Value;
+            product.OldPrice = OldPrice;
+            product.Image = image;
         }
     }
 }

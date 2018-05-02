@@ -20,14 +20,15 @@ namespace Store.Controllers
 
         public ActionResult SearchProductName(string name)
         {
-            //Заглушка, на самом деле берем товары из базы
-            var data = new List<string> { "test1", "tes2", "tes2", "tessst2" };
-            return Json(
-                new
-                {
-                    IsSuccess = true,
-                    Data = data
-                });
+            var names = name
+                .Split()
+                .Select(x => x.ToLower())
+                .ToArray();
+            var data = _dataManager.ProductRepository.GetAll()
+                .Where(x => names.All(x.Name.Contains))
+                .ToList();
+
+            return Json(new { Data = data });
         }
 
         [HttpGet]
@@ -49,11 +50,32 @@ namespace Store.Controllers
             if (brand == null)
                 return BadRequest();
 
-            var products = _dataManager.ProductRepository.GetAll()
+            var products = brand.Products
                 .Where(x => x.BrandId == id)
+                .Select(x => new ProductModel
+                {
+                    Id = x.Id,
+                    ImageData = x.Image,
+                    Name = x.Name,
+                    Price = x.Price,
+                    OldPrice = x.OldPrice,
+                    Brand = x.Brand.Name
+                })
                 .ToList();
+            ViewData["Brand"] = brand.Name;
+            return View(products);
+        }
 
-            return null;
+        [HttpGet]
+        public IActionResult GetProduct(int id)
+        {
+            var product = _dataManager.ProductRepository.GetById(id);
+            if (product == null)
+                return NotFound();
+            var model = new ProductModel();
+            model.SetModel(product);
+
+            return View(model);
         }
 
         [HttpGet]
@@ -75,35 +97,60 @@ namespace Store.Controllers
                 return View(model);
             }
 
-            var brand = _dataManager.BrandRepository.GetAll().First(x => x.Name == model.Brand);
-
-            string content;
-            using (var binaryReader = new BinaryReader(model.Image.OpenReadStream()))
-            {
-                var imageData = binaryReader.ReadBytes((int)model.Image.Length);
-                content = Convert.ToBase64String(imageData);
-            }
-
-            var image = new Image
-            {
-                Name = model.Image.FileName,
-                Content = content
-            };
-
-            var product = new Product
-            {
-                Name = model.Name,
-                Brand = brand,
-                Description = model.Description,
-                OldPrice = model.OldPrice,
-                Price = model.Price.Value,
-                Image = image
-            };
+            var product = new Product();
+            model.SetProduct(product, _dataManager);
 
             _dataManager.ProductRepository.Create(product);
             _dataManager.SaveChanges();
 
             return Json(new { Created = true });
+        }
+
+        [HttpGet]
+        public IActionResult DeleteProduct(int id)
+        {
+            //TODO Для админа
+            var product = _dataManager.ProductRepository.GetById(id);
+            if (product == null)
+                return NotFound();
+
+            _dataManager.ProductRepository.Delete(product);
+            _dataManager.SaveChanges();
+
+            return Json(new { Deleted = true });
+        }
+
+        [HttpGet]
+        public IActionResult EditProduct(int id)
+        {
+            //TODO Для админа
+            var product = _dataManager.ProductRepository.GetById(id);
+            if (product == null)
+                return NotFound();
+
+            var model = new ProductModel();
+            model.SetModel(product);
+            model.Fill(_dataManager);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditProduct(ProductModel model)
+        {
+            //TODO Для админа
+            if (!ModelState.IsValid)
+            {
+                model.Fill(_dataManager);
+                return View(model);
+            }
+
+            var product = _dataManager.ProductRepository.GetById(model.Id);
+            model.SetProduct(product, _dataManager);
+            _dataManager.ProductRepository.Update(product);
+            _dataManager.SaveChanges();
+
+            return RedirectToAction("GetProduct", new { id = product.Id });
         }
     }
 }

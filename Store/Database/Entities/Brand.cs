@@ -18,6 +18,6 @@ namespace Store.Database.Entities
         [ForeignKey(nameof(ImageId))]
         public Image Image { get; set; }
 
-        public virtual List<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

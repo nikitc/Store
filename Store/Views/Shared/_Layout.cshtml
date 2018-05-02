@@ -49,27 +49,27 @@
             }
         </div>
     </header>
-<div class="logo">
-    <a href="@Url.Action("Index", "Home")">
-        <img class="main-logo" src="images/23020996.png">
-    </a>
-    <form id="form" autocomplete="off">
-        <div class="autocomplete">
-            <input type="text" class="search" id="myInput" placeholder="Поиск товара">
-            <input class="submit" value type="submit">
+    <div class="logo">
+        <a href="@Url.Action("Index", "Home")">
+            <img class="main-logo" src="images/23020996.png">
+        </a>
+        <form id="form" autocomplete="off">
+            <div class="autocomplete">
+                <input type="text" class="search" id="myInput" placeholder="Поиск товара">
+                <input class="submit" value type="submit">
+            </div>
+        </form>
+        <div class="cart-container">
+            <a class="cart"></a>
+            <span class="cost">@(countProducts != 0 ? $"Товаров {countProducts}" : "Нет товаров")</span>
         </div>
-    </form>
-    <div class="cart-container">
-        <a class="cart"></a>
-        <span class="cost">@(countProducts != 0 ? $"Товаров {countProducts}" : "Нет товаров")</span>
     </div>
-</div>
     <nav class="menu-container">
         <ul class="menu">
             <li class="catalog"><a><img src="/images/catalog.png">Каталог товаров<img src="/images/catalog-arrow.png"></a></li>
             @foreach (var brand in brands)
             {
-                <li><a href="samsung.html">@brand.Name</a></li>
+                <li><a href="@Url.Action("GetProductsByBrand", "Product", new {id = brand.BrandId})">@brand.Name</a></li>
             }
         </ul>
     </nav>

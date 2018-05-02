@@ -1,0 +1,21 @@
+﻿@model Store.Models.ProductModel
+
+<h3 class="h3-card">@Model.Name</h3>
+<div class="card-product">
+    <div class="card-photo">
+        <img src="data:@Model.ImageData.Type;base64,@Model.ImageData.Content" alt="Изображение телефона"/>
+    </div>
+    <div class="card-description">
+        <h4>Характеристики</h4>
+        <p>@Model.Description</p>
+    </div>
+    <div class="card-price">
+        <h3>@Model.Price.Value<span class="rub"></span></h3>
+        @if (Model.OldPrice.HasValue)
+        {
+            <p>@Model.OldPrice.Value</p>
+        }
+        <a class="to-cart">В корзину</a>
+        <hr />
+    </div>
+</div>

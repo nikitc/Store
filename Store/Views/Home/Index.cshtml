@@ -10,7 +10,7 @@
         <p>Популярные бренды</p>
         @foreach (var brand in Model)
         {
-            <a href="@Url.Action("")" class="saleItem">
+            <a href="@Url.Action("GetProductsByBrand", "Product", new {id = brand.BrandId})" class="saleItem">
                 <div class="image">
                     <img src="data:@brand.ImageData.Type;base64,@brand.ImageData.Content">
                 </div>
