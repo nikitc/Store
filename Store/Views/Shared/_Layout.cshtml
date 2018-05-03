@@ -149,16 +149,19 @@
                     })).then(function () {
                         console.log(arr);
                         for (i = 0; i < arr.length; i++) {
-                            b = document.createElement("DIV");
-                            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                            b.innerHTML += arr[i].substr(val.length);
-                            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                            b.addEventListener("click",
+                            item = document.createElement("a");
+                            var currentUrl = document.createElement("div");
+                            item.href = "@Url.Action("GetProduct", "Product")?id=" + arr[i].id;
+                            currentUrl.innerHTML = "<strong>" + arr[i].name.substring(0, val.length) + "</strong>";
+                            currentUrl.innerHTML += arr[i].name.substring(val.length);
+                            currentUrl.innerHTML += "<input type='hidden' value='" + arr[i].name + "'>";
+                            currentUrl.addEventListener("click",
                                 function (e) {
                                     inp.value = this.getElementsByTagName("input")[0].value;
                                     closeAllLists();
                                 });
-                            a.appendChild(b);
+                            item.appendChild(currentUrl);
+                            a.appendChild(item);
 
                         }
                     });

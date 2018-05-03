@@ -2,6 +2,7 @@
     background-color: #f7f7f7;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 15px;
+    margin: 0;
 }
 
 header {
@@ -315,11 +316,13 @@ a.saleItem {
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     font-size: 11px;
+    transition: .4s ease-out;
 }
 
 .saleItem:hover {
     opacity: 0.5;
     cursor: pointer;
+    transition: .4s ease-out;
 }
 
 .sale .description {
@@ -369,10 +372,14 @@ a.saleItem:last-child {
 }
 
 footer {
+    width: 100%;
     color: #aaaaad;
     background-color: #353a3e;
     height: 55px;
     font-size: 13px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
     footer .left {
@@ -470,6 +477,7 @@ footer {
         padding: 10px;
         cursor: pointer;
         background-color: #fff;
+
     }
 
         .autocomplete-items div:hover {
@@ -572,7 +580,7 @@ figure {
 
 .prices {
     margin: 14px 0;
-    s: 'Als Schlange Sans';
+    font-family: 'Als Schlange Sans';
 }
 
     .prices p:after,

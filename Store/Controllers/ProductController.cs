@@ -24,11 +24,16 @@ namespace Store.Controllers
                 .Split()
                 .Select(x => x.ToLower())
                 .ToArray();
-            var data = _dataManager.ProductRepository.GetAll()
-                .Where(x => names.All(x.Name.Contains))
-                .ToList();
 
-            return Json(new { Data = data });
+            var result = new List<Product>();
+            foreach (var word in names)
+            {
+                result.AddRange(_dataManager.ProductRepository.GetAll()
+                    .Where(x => x.Name.ToLower().StartsWith(word))
+                    .ToList());
+            }
+
+            return Json(new { Data = result.Distinct() });
         }
 
         [HttpGet]
