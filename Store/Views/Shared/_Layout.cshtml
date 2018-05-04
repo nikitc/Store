@@ -1,14 +1,15 @@
 ﻿@using Store.Models
+@using Store.Security
 @using Store.Services
 
 @inject IDataManager Service
 @{
     var countProducts = 0;
-    var isAuthenticated = User.Identity.IsAuthenticated;
+    var isAuthenticated = UserPrincipal.Current != null && UserPrincipal.Current.IsAuthenticated;
     var brands = Service.BrandRepository.GetAll().Take(5).Select(x => new BrandModel { Name = x.Name, BrandId = x.Id });
     if (isAuthenticated)
     {
-        var user = Service.UserRepository.GetByName(User.Identity.Name);
+        var user = Service.UserRepository.GetById(UserPrincipal.Current.UserId);
         countProducts = user?.Orders?.Count ?? 0;
     }
 }
@@ -45,7 +46,7 @@
             }
             else
             {
-                <a href="">@User.Identity.Name</a>
+                <a href="">@UserPrincipal.Current.Name</a>
             }
         </div>
     </header>

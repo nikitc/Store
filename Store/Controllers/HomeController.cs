@@ -6,10 +6,11 @@ using Store.Services;
 
 namespace Store.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseStoreController
     {
         public IActionResult Index([FromServices] IDataManager dataManager)
         {
+            var a = UserPrincipal?.Name;
             var brands = dataManager.BrandRepository.GetAll()
                 .Take(5)
                 .Select(x => new BrandModel

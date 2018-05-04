@@ -41,7 +41,7 @@ namespace Store.Controllers
                 var user = await _dataManager.UserRepository.GetAll().FirstOrDefaultAsync(u => u.Login == model.Login);
                 if (user != null && user.PasswordHash == passwordHash)
                 {
-                    await Authenticate(model.Login); // аутентификация
+                    await Authenticate(user.Id.ToString()); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -76,13 +76,14 @@ namespace Store.Controllers
                     _dataManager.UserRepository.Create(newUser);
                     _dataManager.SaveChanges();
                     SendEmailConfirm(model.Email, newUser.Id, mailSender);
-                    await Authenticate(model.Login);
+                    await Authenticate(newUser.Id.ToString());
 
                     return RedirectToAction("Index", "Home");
                 }
 
                 ModelState.AddModelError("", "Пользователь с таким логином уже существует");
             }
+
             return View(model);
         }
 

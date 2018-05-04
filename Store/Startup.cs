@@ -1,11 +1,16 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Store.Services;
 using Microsoft.EntityFrameworkCore;
+using Store.Security;
+using HttpContext = Store.Security.HttpContext;
 
 namespace Store
 {
@@ -31,10 +36,19 @@ namespace Store
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.LoginPath = new PathString("/Account/Login");
                 });
 
-            services.AddMvc();
+            services.AddMvc(s =>
+            {
+                s.Filters.Add(new PermissionMapFilter());
+            });
+            services
+                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+                .AddSingleton<IActionContextAccessor, ActionContextAccessor>()
+                .AddScoped(provider => provider.GetService<IUrlHelperFactory>()
+                    .GetUrlHelper(provider.GetService<IActionContextAccessor>().ActionContext))
+                .AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +69,7 @@ namespace Store
 
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseMiddleware<HttpExceptionMiddleware>();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -65,6 +80,8 @@ namespace Store
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+
+            HttpContext.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
         }
     }
 }
