@@ -7,6 +7,8 @@ namespace Store.Database.Entities
     {
         public int OrderId { get; set; }
 
+        public int ProductCount { get; set; }
+
         [ForeignKey(nameof(OrderId))]
         public virtual Order Order { get; set; }
 

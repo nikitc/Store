@@ -10,7 +10,11 @@
     if (isAuthenticated)
     {
         var user = Service.UserRepository.GetById(UserPrincipal.Current.UserId);
-        countProducts = user?.Orders?.Count ?? 0;
+        var basket = user.Orders?.FirstOrDefault(o => o.StateId == 1);
+        if (basket != null)
+        {
+            countProducts = basket.Product2Orders.Sum(x => x.ProductCount);
+        }
     }
 }
 

@@ -298,7 +298,6 @@ a#reg {
 div.main {
     width: 1180px;
     margin: 0 auto;
-    margin-bottom: 100px;
 }
 
 a.saleItem {
@@ -376,7 +375,7 @@ footer {
     height: 55px;
     font-size: 13px;
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
     left: 0;
 }
 

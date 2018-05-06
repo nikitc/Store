@@ -15,7 +15,20 @@
         {
             <p>@Model.OldPrice.Value</p>
         }
-        <a class="to-cart">В корзину</a>
+        <a class="to-cart" href="javascript: addProduct(@(Model.Id))">В корзину</a>
         <hr />
     </div>
 </div>
+<script>
+    function addProduct(id) {
+        $.ajax({
+            url: "@Url.Action("AddProduct", "Basket")?productId=" + id,
+            type: "POST",
+            success: function (data) {
+
+            },
+            error: function () {
+            }
+        });
+    }
+</script>

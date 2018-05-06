@@ -1,4 +1,5 @@
-﻿using Store.Database.Entities;
+﻿using System.Linq;
+using Store.Database.Entities;
 using Store.Database.interfaces;
 using Store.Services;
 
@@ -16,6 +17,11 @@ namespace Store.Database
         public void Add(Product2Order entity)
         {
             _context.Product2Orders.Add(entity);
+        }
+
+        public IQueryable<Product2Order> GetAll()
+        {
+            return _context.Product2Orders;
         }
     }
 }

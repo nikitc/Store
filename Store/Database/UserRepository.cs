@@ -14,9 +14,12 @@ namespace Store.Database
             _context = context;
         }
         
-        public User GetByName(string name)
+        public new User GetById(int id)
         {
-            return _context.Users.Include(x => x.Orders).FirstOrDefault(x => x.Login == name);
+            return _context.Users
+                          .Include(x => x.Orders)
+                          .ThenInclude(x => x.Product2Orders)
+                          .FirstOrDefault(x => x.Id == id);
         }
     }
 }
