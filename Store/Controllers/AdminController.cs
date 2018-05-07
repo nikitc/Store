@@ -2,12 +2,14 @@
 
 namespace Store.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseStoreController
     {
         [HttpGet]
         public IActionResult Index()
         {
-            //TODO Проверка на админа
+            if (!UserPrincipal.IsAdmin)
+                return BadRequest();
+
             return View();
         }
     }

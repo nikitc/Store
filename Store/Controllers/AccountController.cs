@@ -105,10 +105,8 @@ namespace Store.Controllers
             var userToken = await _dataManager.UserTokenRepository.GetAll().FirstOrDefaultAsync(tck => tck.Token == token);
             if (userToken == null)
                 return BadRequest();
-            
-            /* TODO
-             Тут надо добавить миграцию, сделать у пользователя флаг EmailConfirmed и сделать его true
-             */
+
+            userToken.User.IsEmailConfirmed = true;
             _dataManager.UserTokenRepository.Delete(userToken);
             _dataManager.SaveChanges();
             return RedirectToAction("Index", "Home");

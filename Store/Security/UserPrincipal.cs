@@ -19,10 +19,7 @@ namespace Store.Security
                 var httpContext = HttpContext.Current;
                 if (httpContext == null || !httpContext.User.Identity.IsAuthenticated)
                     return null;
-
-                var a = httpContext.RequestServices
-                    .GetRequiredService<IMemoryCache>()
-                    .Get<UserPrincipal>(httpContext.User.Identity.Name);
+                
                 return httpContext.RequestServices
                     .GetRequiredService<IMemoryCache>()
                     .Get<UserPrincipal>(httpContext.User.Identity.Name);
@@ -41,6 +38,8 @@ namespace Store.Security
         public string AuthenticationType { get; set; }
 
         public bool IsAuthenticated { get; set; }
+
+        public bool IsAdmin { get; set; }
 
         public Dictionary<string, object> Metadata { get; set; }
     }

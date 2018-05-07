@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Store.Database.Entities;
@@ -9,7 +7,7 @@ using Store.Services;
 
 namespace Store.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseStoreController
     {
         private readonly IDataManager _dataManager;
 
@@ -86,7 +84,9 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
-            //TODO Для админа
+            if (!UserPrincipal.IsAdmin)
+                return BadRequest();
+
             var model = new ProductModel();
             model.Fill(_dataManager);
             return View(model);
@@ -95,7 +95,9 @@ namespace Store.Controllers
         [HttpPost]
         public IActionResult AddProduct(ProductModel model)
         {
-            //TODO Для админа
+            if (!UserPrincipal.IsAdmin)
+                return BadRequest();
+
             if (!ModelState.IsValid)
             {
                 model.Fill(_dataManager);
@@ -114,7 +116,9 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult DeleteProduct(int id)
         {
-            //TODO Для админа
+            if (!UserPrincipal.IsAdmin)
+                BadRequest();
+
             var product = _dataManager.ProductRepository.GetById(id);
             if (product == null)
                 return NotFound();
@@ -128,7 +132,9 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult EditProduct(int id)
         {
-            //TODO Для админа
+            if (!UserPrincipal.IsAdmin)
+                BadRequest();
+
             var product = _dataManager.ProductRepository.GetById(id);
             if (product == null)
                 return NotFound();
@@ -143,7 +149,9 @@ namespace Store.Controllers
         [HttpPost]
         public IActionResult EditProduct(ProductModel model)
         {
-            //TODO Для админа
+            if (!UserPrincipal.IsAdmin)
+                BadRequest();
+
             if (!ModelState.IsValid)
             {
                 model.Fill(_dataManager);

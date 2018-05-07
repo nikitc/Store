@@ -21,6 +21,10 @@ namespace Store.Database.Entities
 
         public string Email { get; set; }
 
+        public bool IsEmailConfirmed { get; set; }
+
+        public bool IsAdmin { get; set; }
+
         public string LastName { get; set; }
 
         public int Age { get; set; }

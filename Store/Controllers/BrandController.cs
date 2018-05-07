@@ -7,7 +7,7 @@ using Store.Services;
 
 namespace Store.Controllers
 {
-    public class BrandController : Controller
+    public class BrandController : BaseStoreController
     {
         private readonly IDataManager _dataManager;
 
@@ -19,7 +19,9 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult AddBrand()
         {
-            //TODO Проверка на админа
+            if (!UserPrincipal.IsAdmin)
+                return BadRequest();
+            
             var brandModel = new BrandModel();
             return View(brandModel);
         }
@@ -27,7 +29,9 @@ namespace Store.Controllers
         [HttpPost]
         public IActionResult AddBrand(BrandModel model)
         {
-            //TODO Проверка на админа
+            if (!UserPrincipal.IsAdmin)
+                return BadRequest();
+
             if (!ModelState.IsValid)
                 return View(model);
 

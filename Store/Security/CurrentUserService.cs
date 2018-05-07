@@ -36,7 +36,8 @@ namespace Store.Security
             {
                 Name = person.Login,
                 UserId = person.Id,
-                IsAuthenticated = true
+                IsAuthenticated = true,
+                IsAdmin = person.IsAdmin
             };
             return principal;
         }

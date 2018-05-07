@@ -8,8 +8,8 @@ namespace Store.Controllers
         private UserPrincipal _userPrincipal;
         protected UserPrincipal UserPrincipal
         {
-            get { return _userPrincipal ?? (_userPrincipal = UserPrincipal.Current); }
-            set { _userPrincipal = value; }
+            get => _userPrincipal ?? (_userPrincipal = UserPrincipal.Current);
+            set => _userPrincipal = value;
         }
     }
 }
