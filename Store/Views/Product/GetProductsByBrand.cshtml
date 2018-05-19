@@ -1,6 +1,7 @@
-﻿@model IEnumerable<Store.Models.ProductModel>
+﻿@using Store.Security
+@model IEnumerable<Store.Models.ProductModel>
 
-<p>@ViewData["Brand"]</p>
+<h4 class="brand">@ViewData["Brand"]</h4>
 <div class="products">
     @foreach (var product in Model)
     {
@@ -21,7 +22,10 @@
                         <p>@product.OldPrice.Value</p>
                     }
                 </div>
-                <a class="to-cart" href="javascript: addProduct(@(product.Id))">В корзину</a>
+                @if (UserPrincipal.Current != null)
+                {
+                    <a class="to-cart" href="javascript: addProduct(@(product.Id))">В корзину</a>
+                }
             </div>
         </div>
     }
@@ -32,7 +36,9 @@
             url: "@Url.Action("AddProduct", "Basket")?productId=" + id,
             type: "POST",
             success: function (data) {
-
+                if (data.isSuccess) {
+                    updateCost();
+                }
             },
             error: function () {
             }

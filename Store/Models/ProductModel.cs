@@ -66,7 +66,7 @@ namespace Store.Models
             Brands = dataManager.BrandRepository.GetAll().Select(x => x.Name).ToList();
         }
 
-        public void SetProduct(Product product, IDataManager dataManager)
+        public void ApplyChanges(Product product, IDataManager dataManager)
         {
             var brand = dataManager.BrandRepository.GetAll().First(x => x.Name == Brand);
 

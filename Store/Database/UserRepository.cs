@@ -19,6 +19,8 @@ namespace Store.Database
             return _context.Users
                           .Include(x => x.Orders)
                           .ThenInclude(x => x.Product2Orders)
+                          .ThenInclude(x => x.Product)
+                          .ThenInclude(x => x.Image)
                           .FirstOrDefault(x => x.Id == id);
         }
     }

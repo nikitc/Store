@@ -1,0 +1,32 @@
+﻿@model Store.Models.Basket.BasketModel
+@{
+    ViewBag.Title = "Корзина";
+}
+
+<div class="basket-main">
+    @if (Model != null)
+    {
+        <div class="basket-form">
+
+            <div class="basket-form-header">
+                <div class="basket-item basket-product">Товар</div>
+                <div class="basket-item basket-price">Цена</div>
+                <div class="basket-item basket-number">Количество</div>
+                <div class="basket-item basket-sum">Сумма</div>
+                <div class="clearfix"></div>
+            </div>
+            @foreach (var product in Model.Products)
+            {
+                @Html.Partial("BasketProduct", product)
+            }
+            <input type="button" value="Оформить заказ" />
+        </div>
+        <div class="order-sum">
+            Итого: <span id="full_price">@Model.Sum</span>
+        </div>
+    }
+    else
+    {
+        <div>Корзина пустая</div>
+    }
+</div>

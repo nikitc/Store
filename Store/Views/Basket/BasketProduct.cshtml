@@ -1,0 +1,45 @@
+﻿@model Store.Models.Basket.BasketProductModel
+@{
+    Layout = null;
+}
+
+<div class="basket-container">
+    <div class="basket-left">
+        <img src="data:@Model.ImageData.Type;base64,@Model.ImageData.Content" style="width: 80px; height: auto;">
+    </div>
+    <div class="basket-right">
+        <div class="nameProd">
+            <a href="@Url.Action("GetProduct", "Product", new {productId = Model.ProductId})">@Model.Name</a>
+            <a href="@Url.Action("RemoveProduct", new {productId = Model.ProductId})" class="delete">Удалить</a>
+        </div>
+        <div class="priceProd">@Model.Price</div>
+        <div class="countProd">
+            @Html.TextBoxFor(m => m.Count, new { value = Model.Count, @class = "counter", id = Model.ProductId})
+            <script>
+                $('#@Model.ProductId').change(function () {
+                    var val = $('#@Model.ProductId').val();
+                    console.log(val);
+                    if (parseInt(val) !== NaN) {
+                        $.ajax({
+                            url: "@Url.Action("SetProductsCount", "Basket")?productId=" + @Model.ProductId + "&count=" + val,
+                            type: "GET",
+                            success: function (data) {
+                                console.log(data);
+                                var fullPrice = data.fullPrice;
+                                console.log(fullPrice);
+                                $('#cost').text(fullPrice);
+                                $('#full_price').text(fullPrice);
+                                $("#product_full_price_@Model.ProductId").text(parseInt(val) * @Model.Price);
+                            },
+                            error: function() {
+                                
+                            }
+                        });
+                    }
+                });
+            </script>
+        </div>
+        <div class="sumProd" id="product_full_price_@Model.ProductId">@(Model.Price * Model.Count)</div>
+    </div>
+    <div class="clearfix"></div>
+</div>

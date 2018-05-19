@@ -375,8 +375,16 @@ footer {
     height: 55px;
     font-size: 13px;
     position: absolute;
-    bottom: 0px;
+    bottom: -50px;
     left: 0;
+}
+
+.card-product ~ footer {
+    bottom: -130px;
+}
+
+.brand {
+    padding-left: 45px;
 }
 
     footer .left {
@@ -583,8 +591,9 @@ figure {
     .prices p:after,
     .prices span:after,
     .card-price p:after,
-    .card-price span:after {
-        content: "₽";
+    .card-price span:after,
+    .cost:after {
+        content: " ₽";
     }
 
     .prices h3,
@@ -680,4 +689,186 @@ figure {
 
 .h3-card {
     margin-left: 70px;
+}
+
+.basket-main {
+    padding: 30px;
+}
+
+.basket-form {
+    margin: 0px;
+    padding: 0px;
+    font: 12px Arial, Helvetica, sans-serif;
+    color: #3F454B;
+    display: block;
+    border-radius: 0 0 6px 6px;
+    margin: 0 0 20px 0;
+    background-color: rgba(255,255,255,1);
+    box-shadow: 0 1px 2px 0px rgba(0,0,0,.25);
+}
+
+.basket-form-header {
+    border-bottom: 1px solid #C9C9C9;
+    background-color: #fff;
+    border-radius: 6px 6px 0 0;
+    box-shadow: 0 1px 2px -1px rgba(0,0,0,.5);
+    outline: none !important;
+}
+
+.clearfix {
+    clear: both;    
+} 
+
+.basket-item {
+    color: #aca7a4;
+    font-size: 1.2em;
+    text-align: center;
+    box-sizing: border-box;
+    float: left;
+    padding: 20px 0 18px 0;
+}
+
+.basket-product {
+    width: 60%;
+}
+
+.basket-price {
+    width: 12%;
+}
+
+.basket-number {
+    width: 16%;
+}
+
+.basket-sum {
+    width: 12%;
+}
+
+.basket-left {
+    float: left;
+    width: 18%;
+    padding-left: 3%;
+    text-align: center;
+    height: 100%;
+    position: relative;
+}
+
+    .basket-left img {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+.basket-right {
+    float: left;
+    width: 79%;
+    box-sizing: border-box;
+}
+
+.basket-container {
+    height: 190px;
+    border-bottom: 1px solid #e0e1e2;
+    margin-bottom: 10px;
+}
+
+.nameProd {
+    float: left;
+    width: 51%;
+    padding-left: 2%;
+    box-sizing: border-box;
+    padding: 15px 20px 0 15px;
+    font-size: 15px;
+}
+
+    .nameProd a {
+        color: #0085CF;
+        text-decoration: none;
+        border-bottom: none;
+        display: block;
+        box-sizing: border-box;
+        line-height: 19px;
+    }
+
+.delete {
+    margin-top: 5px;
+    display: inline-block;
+    vertical-align: middle;
+    border-bottom: 1px dotted #353a3e;
+    color: black !important;
+    font-size: 13px;
+}
+
+.priceProd {
+    height: 20px;
+    margin-top: 20px;
+    margin-left: -15px;
+    font-size: 14px;
+    font-weight: 900;
+    color: #3f454b;
+    line-height: 19px;
+    text-align: center;
+    float: left;
+    width: 15%;
+    font-family: Schlange, Helvetica, Arial, sans-serif;
+}
+
+.countProd {
+    float: left;
+    width: 19%;
+    text-align: center;
+    padding: 20px;
+}
+
+.countProd input {
+    width: 80px;
+    border-radius: 5px;
+    outline: none;
+    margin-left: -20px;
+    padding-left: 5px;
+}
+
+.sumProd {
+    font-family: Schlange, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    color: #3f454b;
+    line-height: 19px;
+    width: 8%;
+    float: left;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+.basket-main input[type="button"]{
+    width: 150px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 5px;
+    color: rgb(109, 50, 191);
+    font-weight: 700;
+    font-size: 14px;
+    outline: none;
+    float: right;
+}
+
+.basket-main ~ footer {
+    bottom: -200px;
+}
+
+.order-sum {
+    float: right;
+    height: 50px;
+    line-height: 50px;
+    margin-right: 50px;
+}
+
+div.basket-main div.order-sum span {
+    font-family: Schlange, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    color: #3f454b;
 }

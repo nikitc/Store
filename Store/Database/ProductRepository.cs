@@ -17,7 +17,10 @@ namespace Store.Database
 
         public new Product GetById(int id)
         {
-            return _context.Products.Include(x => x.Brand).Include(x => x.Image).FirstOrDefault(x => x.Id == id);
+            return _context.Products
+                .Include(x => x.Brand)
+                .Include(x => x.Image)
+                .FirstOrDefault(x => x.Id == id);
         }
     }
 }

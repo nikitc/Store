@@ -105,7 +105,7 @@ namespace Store.Controllers
             }
 
             var product = new Product();
-            model.SetProduct(product, _dataManager);
+            model.ApplyChanges(product, _dataManager);
 
             _dataManager.ProductRepository.Create(product);
             _dataManager.SaveChanges();
@@ -159,7 +159,7 @@ namespace Store.Controllers
             }
 
             var product = _dataManager.ProductRepository.GetById(model.Id);
-            model.SetProduct(product, _dataManager);
+            model.ApplyChanges(product, _dataManager);
             _dataManager.ProductRepository.Update(product);
             _dataManager.SaveChanges();
 

@@ -4,7 +4,7 @@
 
 @inject IDataManager Service
 @{
-    var countProducts = 0;
+    var cost = 0;
     var isAuthenticated = UserPrincipal.Current != null && UserPrincipal.Current.IsAuthenticated;
     var brands = Service.BrandRepository.GetAll().Take(5).Select(x => new BrandModel { Name = x.Name, BrandId = x.Id });
     if (isAuthenticated)
@@ -13,7 +13,7 @@
         var basket = user.Orders?.FirstOrDefault(o => o.StateId == 1);
         if (basket != null)
         {
-            countProducts = basket.Product2Orders.Sum(x => x.ProductCount);
+            cost = (int)basket.Product2Orders.Sum(x => x.Product.Price * x.ProductCount);
         }
     }
 }
@@ -51,6 +51,8 @@
             else
             {
                 <a href="">@UserPrincipal.Current.Name</a>
+                <span> / </span>
+                <a href="@Url.Action("Logout", "Account")">Выход</a>
             }
         </div>
     </header>
@@ -65,8 +67,8 @@
             </div>
         </form>
         <div class="cart-container">
-            <a class="cart"></a>
-            <span class="cost">@(countProducts != 0 ? $"Товаров {countProducts}" : "Нет товаров")</span>
+            <a class="cart" href="@Url.Action("GetProducts", "Basket")"></a>
+            <span class="cost" id="cost">@(cost.ToString())</span>
         </div>
     </div>
     <nav class="menu-container">
@@ -108,6 +110,19 @@
                 },
                 error: function () {
                     $("#register").empty();
+                }
+            });
+        }
+
+        function updateCost() {
+            $.ajax({
+                url: "@Url.Action("GetCurrentCost", "Basket")",
+                type: "GET",
+                success: function (data) {
+                    $("#cost").text(data.cost);
+                },
+                error: function() {
+
                 }
             });
         }
