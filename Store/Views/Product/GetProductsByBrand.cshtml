@@ -30,18 +30,3 @@
         </div>
     }
 </div>
-<script>
-    function addProduct(id) {
-        $.ajax({
-            url: "@Url.Action("AddProduct", "Basket")?productId=" + id,
-            type: "POST",
-            success: function (data) {
-                if (data.isSuccess) {
-                    updateCost();
-                }
-            },
-            error: function () {
-            }
-        });
-    }
-</script>

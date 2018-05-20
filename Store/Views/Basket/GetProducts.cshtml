@@ -7,7 +7,6 @@
     @if (Model != null)
     {
         <div class="basket-form">
-
             <div class="basket-form-header">
                 <div class="basket-item basket-product">Товар</div>
                 <div class="basket-item basket-price">Цена</div>
@@ -19,7 +18,9 @@
             {
                 @Html.Partial("BasketProduct", product)
             }
-            <input type="button" value="Оформить заказ" />
+            <a href="@Url.Action("Checkout")">
+                <input type="button" value="Оформить заказ" />
+            </a>
         </div>
         <div class="order-sum">
             Итого: <span id="full_price">@Model.Sum</span>

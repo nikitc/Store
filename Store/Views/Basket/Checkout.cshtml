@@ -1,0 +1,39 @@
+﻿@using Store.Models.Order
+@model Store.Models.Basket.PaymentInfoModel
+@{
+    ViewBag.Title = "Оформление заказа";
+}
+
+@using (Html.BeginForm("Checkout", "Basket", FormMethod.Post, new { id = "CheckoutForm", @class = "payment" }))
+{
+    <p>Выберите способ доставки:</p>
+    @Html.DropDownList("DeliveryWay", Html.GetEnumSelectList(typeof(DeliveryWays)), new { id = "DeliveryWaySelector" })
+    @Html.TextBoxFor(m => m.LastName)
+    @Html.TextBoxFor(m => m.FirstName)
+    @Html.TextBoxFor(m => m.MiddleName)
+    @Html.TextBoxFor(m => m.Phone)
+
+    <div id="additional_info">
+        @Html.TextBoxFor(m => m.HouseStreet)
+        @Html.TextBoxFor(m => m.HouseNumber)
+        @Html.TextBoxFor(m => m.HouseAppartmentNumber)
+        @Html.TextBoxFor(m => m.HouseEntranceNumber)
+    </div>
+
+    <input type="submit" value="Готово" />
+}
+
+    <script>
+    function onChangeSelector() {
+        var value = parseInt($('#DeliveryWaySelector').val());
+        if (value === @((int)DeliveryWays.Courier)) {
+            $('#additional_info').show();
+        } else if (value === @((int)DeliveryWays.Pickup)) {
+            $('#additional_info').hide();
+        }
+    }
+
+    $('#DeliveryWaySelector').change(onChangeSelector);
+
+    onChangeSelector();
+    </script>

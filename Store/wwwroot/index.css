@@ -92,6 +92,7 @@ header {
 
 .menu {
     font-size: 14px;
+    position: relative;
 }
 
     .menu li {
@@ -871,4 +872,61 @@ div.basket-main div.order-sum span {
     font-size: 15px;
     font-weight: bold;
     color: #3f454b;
+}
+
+form.payment{
+    padding: 20px;
+}
+
+form.payment input {
+    display: block;
+    margin-bottom: 7px;
+    outline: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+    form.payment select {
+        display: inline-block;
+        padding: 5px;
+        outline: none;
+        border-radius: 5px;
+        margin-left: 10px;
+    }
+
+form.payment p {
+    display: inline-block;
+}
+
+.hover {
+    display: none;
+    position: absolute;
+    top: 52px;
+    left: 85px;
+    z-index: 100;
+    width: 200px;
+    margin: 0;
+    padding: 0;
+    background: rgb(205, 201, 201);
+}
+
+    .hover li {
+        display: block;
+        float: none;
+        width: 200px;
+        text-align: center;
+        background: rgb(205, 201, 201);
+        height: 42px;
+        border-bottom: 1px solid rgb(190, 175, 175);
+    }
+
+.hover li a {
+    display: block;
+    width: 100%;
+    height: 42px;
+    line-height: 42px;
+}
+
+.catalog:hover .hover {
+    display: block;
 }

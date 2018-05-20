@@ -73,12 +73,9 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult GetProducts()
         {
-            if (UserPrincipal == null)
+            if (!IsAuthorized())
                 return Forbid();
             var user = _dataManager.UserRepository.GetById(UserPrincipal.UserId);
-            if (user == null)
-                return BadRequest();
-
             var order = user.Orders.FirstOrDefault(x => x.StateId == 1);
             if (order == null || !order.Product2Orders.Any())
                 return View(null);
@@ -90,6 +87,8 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult SetProductsCount(int productId, int count)
         {
+            if (!IsAuthorized())
+                return BadRequest();
             var user = _dataManager.UserRepository.GetById(UserPrincipal.UserId);
             var product = _dataManager.ProductRepository.GetById(productId);
 
@@ -113,20 +112,35 @@ namespace Store.Controllers
             return Json(new { IsSuccess = true, FullPrice = fullPrice });
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Checkout()
         {
+            if (!IsAuthorized())
+                return Forbid();
+            var user = _dataManager.UserRepository.GetById(UserPrincipal.UserId);
+            var order = user.Orders.FirstOrDefault(x => x.StateId == 1);
+            if (order == null)
+                return BadRequest();
+            var model = new PaymentInfoModel(order.Id);
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Checkout(PaymentInfoModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             return null;
         }
 
         [HttpGet]
         public IActionResult RemoveProduct(int productId)
         {
-            if (UserPrincipal == null)
+            if (!IsAuthorized())
                 return Forbid();
             var user = _dataManager.UserRepository.GetById(UserPrincipal.UserId);
-            if (user == null)
-                return BadRequest();
             var order = user.Orders.FirstOrDefault(x => x.StateId == 1);
             if (order == null)
                 return BadRequest();
@@ -142,7 +156,7 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult GetCurrentCost()
         {
-            if (UserPrincipal == null)
+            if (!IsAuthorized())
                 return Json(new { Cost = 0 });
             var user = _dataManager.UserRepository.GetById(UserPrincipal.UserId);
             var cost = 0;
@@ -151,6 +165,14 @@ namespace Store.Controllers
                 return Json(new { Cost = cost });
             cost = (int)order.Product2Orders.Sum(product => product.Product.Price * product.ProductCount);
             return Json(new { Cost = cost });
+        }
+
+        private bool IsAuthorized()
+        {
+            if (UserPrincipal == null)
+                return false;
+            var user = _dataManager.UserRepository.GetById(UserPrincipal.UserId);
+            return user != null;
         }
     }
 }

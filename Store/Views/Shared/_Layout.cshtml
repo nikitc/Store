@@ -73,7 +73,15 @@
     </div>
     <nav class="menu-container">
         <ul class="menu">
-            <li class="catalog"><a><img src="/images/catalog.png">Каталог товаров<img src="/images/catalog-arrow.png"></a></li>
+            <li class="catalog"><a><img src="/images/catalog.png">Каталог товаров<img src="/images/catalog-arrow.png"></a>
+                <ul class="hover">
+                    @foreach (var brand in brands)
+                    {
+                        <li><a href="@Url.Action("GetProductsByBrand", "Product", new {id = brand.BrandId})">@brand.Name</a></li>
+                    }
+                </ul>
+            </li>
+            
             @foreach (var brand in brands)
             {
                 <li><a href="@Url.Action("GetProductsByBrand", "Product", new {id = brand.BrandId})">@brand.Name</a></li>
@@ -114,6 +122,22 @@
             });
         }
 
+        function addProduct(id) {
+            $.ajax({
+                url: "@Url.Action("AddProduct", "Basket")?productId=" + id,
+                type: "POST",
+                success: function (data) {
+                    if (data.isSuccess) {
+                        updateCost();
+                        greenPopup("Товар добавлен в корзину");
+                    }
+                },
+                error: function () {
+                    redPopup("Произошла ошибка");
+                }
+            });
+        }
+
         function updateCost() {
             $.ajax({
                 url: "@Url.Action("GetCurrentCost", "Basket")",
@@ -148,7 +172,7 @@
             inp.addEventListener("input", function (e) {
                 var a, b, i, val = this.value;
                 closeAllLists();
-                if (!val || val.length < 3) { return false; }
+                if (!val || val.length < 1) { return false; }
                 currentFocus = -1;
                 a = document.createElement("DIV");
                 a.setAttribute("id", this.id + "autocomplete-list");
@@ -160,7 +184,6 @@
                         url: "/Product/SearchProductName?name=" + val,
                         type: "GET",
                         success: function (json) {
-                            console.log(json);
                             arr = json.data;
                         },
                         error: function () {
@@ -172,8 +195,30 @@
                             item = document.createElement("a");
                             var currentUrl = document.createElement("div");
                             item.href = "@Url.Action("GetProduct", "Product")?id=" + arr[i].id;
-                            currentUrl.innerHTML = "<strong>" + arr[i].name.substring(0, val.length) + "</strong>";
-                            currentUrl.innerHTML += arr[i].name.substring(val.length);
+
+                            var words = val.split(' ').filter(function (x) { return x !== ''; });
+                            var lower = arr[i].name.toLowerCase();
+                            var strongs = [];
+                            for (var j = 0; j < words.length; j++) {
+                                var word = words[j].toLowerCase();
+                                console.log(lower);
+                                console.log(word);
+                                var start = lower.indexOf(word);
+                                strongs[j] = [start, word.length + start];
+                            }
+                            var res = "";
+                            for (var j = 0; j < lower.length; j++) {
+                                for (var k = 0; k < strongs.length; k++) {
+                                    if (strongs[k][0] === j) {
+                                        res += "<strong>";
+                                    } else if (strongs[k][1] === j) {
+                                        res += "</strong>";
+                                    }
+                                }
+                                res += arr[i].name[j];
+                            }
+                            currentUrl.innerHTML = res;
+                            console.log(currentUrl.innerHTML);
                             currentUrl.innerHTML += "<input type='hidden' value='" + arr[i].name + "'>";
                             currentUrl.addEventListener("click",
                                 function (e) {

@@ -23,15 +23,11 @@ namespace Store.Controllers
                 .Select(x => x.ToLower())
                 .ToArray();
 
-            var result = new List<Product>();
-            foreach (var word in names)
-            {
-                result.AddRange(_dataManager.ProductRepository.GetAll()
-                    .Where(x => x.Name.ToLower().StartsWith(word))
-                    .ToList());
-            }
+            var query = _dataManager.ProductRepository.GetAll();
+            query = names
+                .Aggregate(query, (current, word) => current.Where(x => x.Name.ToLower().Contains(word)));
 
-            return Json(new { Data = result.Distinct() });
+            return Json(new { Data = query.ToList() });
         }
 
         [HttpGet]

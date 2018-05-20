@@ -12,11 +12,7 @@
         </section>
         <section class="product-card-info-right">
             <h2 class="price">@Model.Price</h2>
-            
-            @using (Html.BeginForm("AddProduct", "Basket", new { productId = Model.Id }, FormMethod.Post))
-            {
-                <input type="submit" class="add-button" value="В корзину">
-            }
+                <input type="submit" class="add-button" onclick="addProduct(@(Model.Id))" value="В корзину">
         </section>
     </section>
 </main>
