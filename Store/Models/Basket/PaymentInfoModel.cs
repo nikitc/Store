@@ -16,11 +16,14 @@ namespace Store.Models.Basket
             };
         }
 
+        public PaymentInfoModel()
+        { }
+
         public List<string> DeliveryWays { get; set; }
 
-        public int OrderId { get; set; }
-        public int DeliveryWayId { get; set; }
-        public DeliveryWays DeliveryWay { get; set; }
+        public int? OrderId { get; set; }
+        public int? DeliveryWayId { get; set; }
+        public DeliveryWays? DeliveryWay { get; set; }
 
         [Required]
         [Display(Prompt = "Имя")]

@@ -132,7 +132,17 @@ namespace Store.Controllers
             {
                 return View(model);
             }
-            return null;
+            var user = _dataManager.UserRepository.GetById(UserPrincipal.UserId);
+            var order = user.Orders.First(x => x.StateId == 1);
+            order.StateId = 2;
+            _dataManager.SaveChanges();
+            return RedirectToAction("PaymentCompleted");
+        }
+
+        [HttpGet]
+        public IActionResult PaymentCompleted()
+        {
+            return View();
         }
 
         [HttpGet]

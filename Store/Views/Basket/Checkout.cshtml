@@ -6,6 +6,7 @@
 
 @using (Html.BeginForm("Checkout", "Basket", FormMethod.Post, new { id = "CheckoutForm", @class = "payment" }))
 {
+    @Html.HiddenFor(m => m.OrderId)
     <p>Выберите способ доставки:</p>
     @Html.DropDownList("DeliveryWay", Html.GetEnumSelectList(typeof(DeliveryWays)), new { id = "DeliveryWaySelector" })
     @Html.TextBoxFor(m => m.LastName)
@@ -23,7 +24,7 @@
     <input type="submit" value="Готово" />
 }
 
-    <script>
+<script>
     function onChangeSelector() {
         var value = parseInt($('#DeliveryWaySelector').val());
         if (value === @((int)DeliveryWays.Courier)) {
@@ -36,4 +37,4 @@
     $('#DeliveryWaySelector').change(onChangeSelector);
 
     onChangeSelector();
-    </script>
+</script>
