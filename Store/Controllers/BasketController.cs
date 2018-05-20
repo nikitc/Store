@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Store.Database.Entities;
-using Store.Models;
 using Store.Models.Basket;
 using Store.Services;
 

@@ -9,7 +9,7 @@
     </div>
     <div class="basket-right">
         <div class="nameProd">
-            <a href="@Url.Action("GetProduct", "Product", new {productId = Model.ProductId})">@Model.Name</a>
+            <a href="@Url.Action("GetProduct", "Product", new {id = Model.ProductId})">@Model.Name</a>
             <a href="@Url.Action("RemoveProduct", new {productId = Model.ProductId})" class="delete">Удалить</a>
         </div>
         <div class="priceProd">@Model.Price</div>
