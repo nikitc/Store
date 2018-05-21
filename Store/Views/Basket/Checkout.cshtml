@@ -10,15 +10,27 @@
     <p>Выберите способ доставки:</p>
     @Html.DropDownList("DeliveryWay", Html.GetEnumSelectList(typeof(DeliveryWays)), new { id = "DeliveryWaySelector" })
     @Html.TextBoxFor(m => m.LastName)
+    @Html.ValidationMessageFor(m => m.LastName)
+
     @Html.TextBoxFor(m => m.FirstName)
+    @Html.ValidationMessageFor(m => m.FirstName)
+
     @Html.TextBoxFor(m => m.MiddleName)
     @Html.TextBoxFor(m => m.Phone)
+    @Html.ValidationMessageFor(m => m.Phone)
 
     <div id="additional_info">
         @Html.TextBoxFor(m => m.HouseStreet)
+        @Html.ValidationMessageFor(m => m.HouseStreet)
+
         @Html.TextBoxFor(m => m.HouseNumber)
+        @Html.ValidationMessageFor(m => m.HouseNumber)
+
         @Html.TextBoxFor(m => m.HouseAppartmentNumber)
+        @Html.ValidationMessageFor(m => m.HouseAppartmentNumber)
+        
         @Html.TextBoxFor(m => m.HouseEntranceNumber)
+        @Html.ValidationMessageFor(m => m.HouseEntranceNumber)
     </div>
 
     <input type="submit" value="Готово" />

@@ -9,8 +9,8 @@
         <a class="close" href="javascript: close()"></a>
         <p>Авторизация</p>
         @Html.TextBoxFor(m => m.Login)
-        @Html.EditorFor(m => m.Password)
         @Html.ValidationMessageFor(m => m.Login)
+        @Html.EditorFor(m => m.Password)
         @Html.ValidationMessageFor(m => m.Password)
         @Html.ValidationSummary(true, "")
         <a href="javascript: resetPassword()" class="forgot-password">Забыли пароль?</a>

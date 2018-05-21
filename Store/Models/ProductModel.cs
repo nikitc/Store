@@ -4,12 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Store.Database.Entities;
 using Store.Services;
 
 namespace Store.Models
 {
-    public class ProductModel
+    public class ProductModel : IValidatableObject
     {
         public int Id { get; set; }
 
@@ -51,14 +52,21 @@ namespace Store.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var errors = new List<ValidationResult>();
+            var dataManager = validationContext.GetService<IDataManager>();
+            if (dataManager.ProductRepository.GetAll().FirstOrDefault(x => x.Name == Name) != null)
+            {
+                yield return new ValidationResult("Товар с таким именем уже существует", new[] { nameof(Name) });
+            }
+
             if (string.IsNullOrEmpty(Brand))
-                errors.Add(new ValidationResult("Выберите бренд", new List<string> { "Brand" }));
+            {
+                yield return new ValidationResult("Выберите бренд", new[] { nameof(Brand) });
+            }
 
-            if (OldPrice.HasValue && OldPrice.Value > Price.Value)
-                errors.Add(new ValidationResult("Старая цена не может быть больше предыдущей", new List<string> { "OldPrice" }));
-
-            return errors;
+            if (OldPrice.HasValue && Price.HasValue && OldPrice.Value > Price.Value)
+            {
+                yield return new ValidationResult("Старая цена не может быть больше предыдущей", new[] { nameof(OldPrice) });
+            }
         }
 
         public void Fill(IDataManager dataManager)

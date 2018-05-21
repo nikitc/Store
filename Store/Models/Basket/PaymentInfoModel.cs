@@ -5,7 +5,7 @@ using Store.Models.Order;
 
 namespace Store.Models.Basket
 {
-    public class PaymentInfoModel
+    public class PaymentInfoModel : IValidatableObject
     {
         public PaymentInfoModel(int orderId)
         {
@@ -25,17 +25,18 @@ namespace Store.Models.Basket
         public int? OrderId { get; set; }
         public DeliveryWays DeliveryWay { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Не указано имя")]
         [Display(Prompt = "Имя")]
         public string FirstName { get; set; }
         [Display(Prompt = "Отчество")]
         public string MiddleName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Не указана фамилия")]
         [Display(Prompt = "Фамилия")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Не указан номер телефона")]
+        [RegularExpression(@"(\+7|8|\b)[\(\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[)\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)", ErrorMessage = "Некорректный номер")]
         [Display(Prompt = "Номер телефона")]
         public string Phone { get; set; }
 
@@ -59,6 +60,32 @@ namespace Store.Models.Basket
             info.HouseAppartmentNumber = HouseAppartmentNumber;
             info.HouseEntranceNumber = HouseEntranceNumber;
             info.Phone = Phone;
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (DeliveryWay == Order.DeliveryWays.Courier)
+            {
+                if (string.IsNullOrEmpty(HouseStreet))
+                {
+                    yield return new ValidationResult("Поле обазятельно для заполнения", new[] { nameof(HouseStreet) });
+                }
+
+                if (HouseNumber == null)
+                {
+                    yield return new ValidationResult("Поле обазятельно для заполнения", new[] { nameof(HouseNumber) });
+                }
+
+                if (HouseAppartmentNumber == null)
+                {
+                    yield return new ValidationResult("Поле обазятельно для заполнения", new[] { nameof(HouseAppartmentNumber) });
+                }
+
+                if (HouseEntranceNumber == null)
+                {
+                    yield return new ValidationResult("Поле обазятельно для заполнения", new[] { nameof(HouseEntranceNumber) });
+                }
+
+            }
         }
     }
 }
