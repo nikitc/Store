@@ -153,9 +153,9 @@ namespace Store.Controllers
                 ModelState.AddModelError("Email", "Пользователя с таким Email не существует");
                 return View(model);
             }
-            model.ResetPassword(user);
+            //model.ResetPassword(user);
 
-            throw new NotImplementedException();
+            return Json(new { IsSuccess = true });
         }
 
         [HttpGet]

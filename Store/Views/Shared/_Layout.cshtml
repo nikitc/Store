@@ -123,6 +123,12 @@
             });
         }
 
+        function startRegister() {
+            $('#reset').empty();
+            $('#login').empty();
+            register();
+        }
+
         function resetPassword() {
             $('#login').empty();
             $.ajax({
