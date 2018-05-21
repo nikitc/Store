@@ -51,7 +51,7 @@ namespace Store.Models.Basket
 
         public void ApplyChanges(PaymentInfo info)
         {
-            info.DeliveryWayId = (int)DeliveryWay;
+            info.DeliveryWayId = (int) DeliveryWay;
             info.FirstName = FirstName;
             info.LastName = LastName;
             info.MiddleName = MiddleName;
@@ -60,6 +60,7 @@ namespace Store.Models.Basket
             info.HouseAppartmentNumber = HouseAppartmentNumber;
             info.HouseEntranceNumber = HouseEntranceNumber;
             info.Phone = Phone;
+        }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -89,3 +90,4 @@ namespace Store.Models.Basket
         }
     }
 }
+    
