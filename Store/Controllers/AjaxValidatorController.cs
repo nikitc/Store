@@ -40,5 +40,17 @@ namespace Store.Controllers
             }
             return Json(new { IsSuccess = false });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CheckResetModel(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _dataManager.UserRepository.GetAll().FirstOrDefaultAsync(u => u.Email == model.Email);
+                if (user != null)
+                    return Json(new { IsSuccess = true });
+            }
+            return Json(new { IsSuccess = false });
+        }
     }
 }

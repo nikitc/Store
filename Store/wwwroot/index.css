@@ -930,3 +930,14 @@ form.payment p {
 .catalog:hover .hover {
     display: block;
 }
+
+table.orders-table {
+    border-collapse: collapse;
+    margin: 10px;
+    text-align: center;
+}
+
+    table.orders-table th, tr, td {
+        padding: 5px;
+        border: 2px solid rgb(197, 190, 190) !important;
+    }

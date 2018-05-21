@@ -47,6 +47,7 @@
                 <span> / </span>
                 <a href="javascript: register()">Регистрация</a>
                 <span id="register"></span>
+                <span id="reset"></span>
             }
             else
             {
@@ -118,6 +119,21 @@
                 },
                 error: function () {
                     $("#register").empty();
+                }
+            });
+        }
+
+        function resetPassword() {
+            $('#login').empty();
+            $.ajax({
+                url: "@Url.Action("ResetPassword", "Account")",
+                type: "GET",
+                success: function(data) {
+                    $('#reset').empty();
+                    $('#reset').html(data);
+                },
+                error: function() {
+                    $('#reset').empty();
                 }
             });
         }

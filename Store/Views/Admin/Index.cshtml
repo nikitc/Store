@@ -1,6 +1,6 @@
 ﻿<div class="content">
     <input type="button" onclick="addBrand()" value="Добавить бренд" />
-    <input type="button" onclick="addProduct()" value="Добавить товар"/>
+    <input type="button" onclick="addNewProduct()" value="Добавить товар"/>
     <div id="add"></div>
 </div>
 <script>
@@ -18,7 +18,7 @@
         });
     }
 
-    function addProduct() {
+    function addNewProduct() {
         $.ajax({
             url: "@Url.Action("AddProduct", "Product")",
             type: "GET",

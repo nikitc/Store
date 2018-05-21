@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Store.Database.Entities;
 using Store.Models.Order;
 
 namespace Store.Models.Basket
@@ -22,8 +23,7 @@ namespace Store.Models.Basket
         public List<string> DeliveryWays { get; set; }
 
         public int? OrderId { get; set; }
-        public int? DeliveryWayId { get; set; }
-        public DeliveryWays? DeliveryWay { get; set; }
+        public DeliveryWays DeliveryWay { get; set; }
 
         [Required]
         [Display(Prompt = "Имя")]
@@ -39,7 +39,7 @@ namespace Store.Models.Basket
         [Display(Prompt = "Номер телефона")]
         public string Phone { get; set; }
 
-        [Display(Prompt="Улица")]
+        [Display(Prompt = "Улица")]
         public string HouseStreet { get; set; }
         [Display(Prompt = "Номер дома")]
         public int? HouseNumber { get; set; }
@@ -47,5 +47,18 @@ namespace Store.Models.Basket
         public int? HouseAppartmentNumber { get; set; }
         [Display(Prompt = "Номер подъезда")]
         public int? HouseEntranceNumber { get; set; }
+
+        public void ApplyChanges(PaymentInfo info)
+        {
+            info.DeliveryWayId = (int)DeliveryWay;
+            info.FirstName = FirstName;
+            info.LastName = LastName;
+            info.MiddleName = MiddleName;
+            info.HouseStreet = HouseStreet;
+            info.HouseNumber = HouseNumber;
+            info.HouseAppartmentNumber = HouseAppartmentNumber;
+            info.HouseEntranceNumber = HouseEntranceNumber;
+            info.Phone = Phone;
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Store.Database
 {
     public class UserRepository : CommonRepository<User>, IUserRepository
     {
-        private StoreContext _context { get; set; }
+        private StoreContext _context { get; }
         public UserRepository(StoreContext context) : base (context.Users)
         {
             _context = context;
@@ -21,6 +21,8 @@ namespace Store.Database
                           .ThenInclude(x => x.Product2Orders)
                           .ThenInclude(x => x.Product)
                           .ThenInclude(x => x.Image)
+                          .Include(x => x.Orders)
+                          .ThenInclude(x => x.PaymentInfo)
                           .FirstOrDefault(x => x.Id == id);
         }
     }

@@ -2,13 +2,19 @@
 {
     public enum OrderStates
     {
-        //Когда заказ это корзина
-        BasketState,
+        /// <summary>
+        /// Заказ в корзине
+        /// </summary>
+        BasketState = 1,
 
-        //Когда заказ в процессе сборки
-        ProcessState,
+        /// <summary>
+        /// Заказ в процессе сборки
+        /// </summary>
+        ProcessState = 2,
 
-        //Когда заказ выполнен
-        CompleteState            
+        /// <summary>
+        /// Заказ исполнен
+        /// </summary>
+        CompleteState = 3         
     }
 }

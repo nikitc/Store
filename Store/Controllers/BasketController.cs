@@ -134,6 +134,9 @@ namespace Store.Controllers
             var user = _dataManager.UserRepository.GetById(UserPrincipal.UserId);
             var order = user.Orders.First(x => x.StateId == 1);
             order.StateId = 2;
+            var paymentinfo = new PaymentInfo();
+            model.ApplyChanges(paymentinfo);
+            order.PaymentInfo = paymentinfo;
             _dataManager.SaveChanges();
             return RedirectToAction("PaymentCompleted");
         }
