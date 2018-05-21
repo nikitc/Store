@@ -1,7 +1,11 @@
 ﻿<div class="content">
     <input type="button" onclick="addBrand()" value="Добавить бренд" />
-    <input type="button" onclick="addNewProduct()" value="Добавить товар"/>
+    <br />
+    <br />
+    <input type="button" onclick="addNewProduct()" value="Добавить товар" />
     <div id="add"></div>
+    <br />
+    <a href="@Url.Action("GetOrders")" style="color: blue; text-decoration: underline">Показать список заказов в статусе "В процессе сборки"</a>
 </div>
 <script>
     function addBrand() {

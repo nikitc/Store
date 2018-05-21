@@ -7,9 +7,11 @@
     var cost = 0;
     var isAuthenticated = UserPrincipal.Current != null && UserPrincipal.Current.IsAuthenticated;
     var brands = Service.BrandRepository.GetAll().Take(5).Select(x => new BrandModel { Name = x.Name, BrandId = x.Id });
+    var isAdmin = false;
     if (isAuthenticated)
     {
         var user = Service.UserRepository.GetById(UserPrincipal.Current.UserId);
+        isAdmin = user.IsAdmin;
         var basket = user.Orders?.FirstOrDefault(o => o.StateId == 1);
         if (basket != null)
         {
@@ -39,6 +41,10 @@
 <body>
     <header>
         <div class="auth">
+            @if (isAdmin)
+            {
+                <a href="@Url.Action("Index", "Admin")" style="text-decoration: underline">Панель администратора</a>
+            }
             <img src="images/avatar_male_250x250.png" class="profile">
             @if (!isAuthenticated)
             {
@@ -74,7 +80,8 @@
     </div>
     <nav class="menu-container">
         <ul class="menu">
-            <li class="catalog"><a><img src="/images/catalog.png">Каталог товаров<img src="/images/catalog-arrow.png"></a>
+            <li class="catalog">
+                <a><img src="/images/catalog.png">Каталог товаров<img src="/images/catalog-arrow.png"></a>
                 <ul class="hover">
                     @foreach (var brand in brands)
                     {
@@ -82,7 +89,7 @@
                     }
                 </ul>
             </li>
-            
+
             @foreach (var brand in brands)
             {
                 <li><a href="@Url.Action("GetProductsByBrand", "Product", new {id = brand.BrandId})">@brand.Name</a></li>

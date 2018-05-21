@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Store.Models.Basket;
 using Store.Models.Order;
 using Store.Services;
 
@@ -26,10 +28,32 @@ namespace Store.Controllers
         [HttpGet]
         public IActionResult GetOrders()
         {
+            if (!UserPrincipal.IsAdmin)
+                return BadRequest();
+
             var orders = _dataManager.OrderRepository
                 .GetAll()
                 .Where(x => x.StateId == (int)OrderStates.ProcessState);
-            return View();
+            var payments = new List<PaymentInfoModel>();
+            foreach (var order in orders)
+            {
+                var payment = new PaymentInfoModel(order.Id);
+                payment.SetModel(order.PaymentInfo);
+                payments.Add(payment);
+            }
+            return View(payments);
+        }
+
+        [HttpGet]
+        public IActionResult OrderIsCompleted(int orderId)
+        {
+            if (!UserPrincipal.IsAdmin)
+                return BadRequest();
+
+            var order = _dataManager.OrderRepository.GetById(orderId);
+            order.StateId = (int) OrderStates.CompleteState;
+            _dataManager.SaveChanges();
+            return RedirectToAction("GetOrders");
         }
     }
 }

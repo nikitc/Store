@@ -10,17 +10,10 @@ namespace Store.Models.Basket
         public PaymentInfoModel(int orderId)
         {
             OrderId = orderId;
-            DeliveryWays = new List<string>
-            {
-                "Курьерская доставка",
-                "Самовывоз"
-            };
         }
 
         public PaymentInfoModel()
         { }
-
-        public List<string> DeliveryWays { get; set; }
 
         public int? OrderId { get; set; }
         public DeliveryWays DeliveryWay { get; set; }
@@ -59,6 +52,45 @@ namespace Store.Models.Basket
             info.HouseAppartmentNumber = HouseAppartmentNumber;
             info.HouseEntranceNumber = HouseEntranceNumber;
             info.Phone = Phone;
+        }
+
+        public void SetModel(PaymentInfo info)
+        {
+            DeliveryWay = (DeliveryWays)info.DeliveryWayId;
+            FirstName = info.FirstName;
+            LastName = info.LastName;
+            MiddleName = info.MiddleName;
+            HouseStreet = info.HouseStreet;
+            HouseNumber = info.HouseNumber;
+            HouseAppartmentNumber = info.HouseAppartmentNumber;
+            HouseEntranceNumber = info.HouseEntranceNumber;
+            Phone = info.Phone;
+        }
+
+        public string GetFIO()
+        {
+            var full = $"{LastName} {FirstName}";
+            if (MiddleName != null)
+                full += $" {MiddleName}";
+            return full;
+        }
+
+        public string GetFullAddress()
+        {
+            if (DeliveryWay == DeliveryWays.Pickup)
+                return "";
+            var address = $"{HouseStreet}, {HouseNumber}";
+            if (HouseAppartmentNumber.HasValue)
+                address += $"-{HouseAppartmentNumber}";
+            if (HouseEntranceNumber.HasValue)
+                address += $", подъезд №{HouseEntranceNumber}";
+
+            return address;
+        }
+
+        public string GetDeliveryWay()
+        {
+            return DeliveryWay == DeliveryWays.Courier ? "Курьерская доставка" : "Самовывоз";
         }
     }
 }

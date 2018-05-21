@@ -1,23 +1,41 @@
-﻿@{
+﻿@using Store.Models.Basket
+@model List<PaymentInfoModel>
+
+@{
     
 }
+@if (Model.Any())
+{
+    <table class="orders-table">
+        <caption>Список заказов</caption>
 
-<table class="orders-table">
-    <caption>Список заказов</caption>
-    <tr>
-        <th>Номер заказа</th>
-        <th>ФИО</th>
-        <th>Номер телефона</th>
-        <th>Способ доставки</th>
-        <th>Адрес</th>
-        <th></th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>ФИО</td>
-        <td>98282828</td>
-        <td>Курьерская</td>
-        <td>Улица</td>
-        <td><input type="button" value="Исполнен"/></td>
-    </tr>
-</table>
+        <tr>
+            <th>Номер заказа</th>
+            <th>ФИО</th>
+            <th>Номер телефона</th>
+            <th>Способ доставки</th>
+            <th>Адрес</th>
+            <th></th>
+        </tr>
+        @foreach (var payment in Model)
+        {
+            <tr>
+                <td>@payment.OrderId</td>
+                <td>@payment.GetFIO()</td>
+                <td>@payment.Phone</td>
+                <td>@payment.GetDeliveryWay()</td>
+                <td>@payment.GetFullAddress()</td>
+                <td>
+                    <a href="@Url.Action("OrderIsCompleted", new {orderId = payment.OrderId})">
+                        <input type="button" value="Исполнен"/>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div>Список заказов пуст</div>
+}
