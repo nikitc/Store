@@ -1,8 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+using Store.Services;
 
 namespace Store.Models.Account
 {
-    public class RegisterModel
+    public class RegisterModel : IValidatableObject
     {
         [Display(Prompt = "Логин")]
         [Required(ErrorMessage = "Не указан логин")]
@@ -25,5 +29,19 @@ namespace Store.Models.Account
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Пароль введен неверно")]
         public string ConfirmPassword { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var dataManager = validationContext.GetService<IDataManager>();
+            if (dataManager.UserRepository.GetAll().FirstOrDefault(x => x.Login == Login) != null)
+            {
+                yield return new ValidationResult("Пользователь с таким логином уже существует", new[] { nameof(Login) });
+            }
+
+            if (dataManager.UserRepository.GetAll().FirstOrDefault(x => x.Email == Email) != null)
+            {
+                yield return new ValidationResult("Пользователь с таким email уже существует", new[] { nameof(Email) });
+            }
+        }
     }
 }
