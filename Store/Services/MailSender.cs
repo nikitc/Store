@@ -43,5 +43,12 @@ namespace Store.Services
             var body = $"Для подтверждения EMail перейдите по ссылке http://localhost:5001/Account/ConfirmEmail?token={token}";
             return Send(address, subject, body);
         }
+
+        public bool SendStandardEmailReset(string address, string token)
+        {
+            var subject = "Восстановление пароля";
+            var body = $"Чтобы сбросить пароль, перейдите по ссылке http://localhost:5001/Account/ResetUserPassword?token={token}";
+            return Send(address, subject, body);
+        }
     }
 }

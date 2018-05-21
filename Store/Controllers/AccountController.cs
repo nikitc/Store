@@ -141,7 +141,7 @@ namespace Store.Controllers
         }
 
         [HttpPost]
-        public IActionResult ResetPassword(ResetPasswordModel model)
+        public IActionResult ResetPassword(ResetPasswordModel model, [FromServices] IMailSender emailSender)
         {
             if (!ModelState.IsValid)
             {
@@ -153,17 +153,30 @@ namespace Store.Controllers
                 ModelState.AddModelError("Email", "Пользователя с таким Email не существует");
                 return View(model);
             }
-            //model.ResetPassword(user);
+            ResetPswd(user.Id, model.Email, emailSender);
 
             return Json(new { IsSuccess = true });
+        }
+
+        private void ResetPswd(int userId, string email, IMailSender emailSender)
+        {
+            var token = GenerateToken();
+            emailSender.SendStandardEmailReset(email, token);
+            var userToken = new UserToken
+            {
+                CreatingDateTime = DateTime.Now,
+                Token = GenerateToken(),
+                UserId = userId
+            };
+            _dataManager.UserTokenRepository.Create(userToken);
+            _dataManager.SaveChanges();
         }
 
         [HttpGet]
         public IActionResult ResetUserPassword(string token)
         {
             if (token == null)
-                RedirectToAction("Index", "Home");
-
+                return BadRequest();
             throw new NotImplementedException();
         }
 

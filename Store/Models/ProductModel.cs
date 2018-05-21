@@ -63,9 +63,9 @@ namespace Store.Models
                 yield return new ValidationResult("Выберите бренд", new[] { nameof(Brand) });
             }
 
-            if (OldPrice.HasValue && Price.HasValue && OldPrice.Value > Price.Value)
+            if (OldPrice.HasValue && Price.HasValue && OldPrice.Value < Price.Value)
             {
-                yield return new ValidationResult("Старая цена не может быть больше предыдущей", new[] { nameof(OldPrice) });
+                yield return new ValidationResult("Старая цена не может быть меньше новой", new[] { nameof(OldPrice) });
             }
         }
 

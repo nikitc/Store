@@ -11,11 +11,11 @@
                 <div class="plate">sale</div>
             }
             <figure>
-                <a href="@Url.Action("GetProduct", new {id = product.Id})"><img src="data:@product.ImageData.Type;base64,@product.ImageData.Content" /></a>
+                <a href="@Url.Action("GetProduct", new {id = product.Id})"><img src="data:@product.ImageData.Type;base64,@product.ImageData.Content" style="height: 200px;" /></a>
             </figure>
             <div class="item-descr">
                 <a href="@Url.Action("GetProduct", new {id = product.Id})">@product.Name</a>
-                <div class="prices">
+                <div class="prices" style="height: 44px; line-height: 44px;">
                     <h3>@product.Price.Value<span class="rub"></span></h3>
                     @if (product.OldPrice.HasValue)
                     {
