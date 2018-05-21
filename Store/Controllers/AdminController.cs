@@ -12,5 +12,11 @@ namespace Store.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public IActionResult GetOrders()
+        {
+            return null;
+        }
     }
 }

@@ -22,6 +22,11 @@ namespace Store.Database.Entities
 
         public string Guid { get; set; }
 
+        public int? PaymentInfoId { get; set; }
+
+        [ForeignKey(nameof(PaymentInfoId))]
+        public virtual PaymentInfo PaymentInfo { get; set; }
+
         public virtual List<Product2Order> Product2Orders { get; set; }
     }
 }
